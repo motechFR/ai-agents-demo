@@ -1,13 +1,10 @@
 import type { DemoLevel } from './types';
 
-import fs from 'node:fs';
-import path from 'node:path';
 
 export const level01: DemoLevel = {
     level: 1,
     title: 'Basic LLM',
     description: 'This is the first level of the demo',
-    mermaidJsFlowchart: fs.readFileSync(path.resolve('app/lib/levels/flowcharts', 'level01.md'), 'utf8'),
 }
 
 export const level02: DemoLevel = {
@@ -69,3 +66,9 @@ export const allDemoLevels: DemoLevel[] = [
     level07,
     level08,
 ]
+
+
+export function getLevel(level: number | string): DemoLevel | null {
+    const levelNumber = typeof level === 'string' ? parseInt(level) : level;
+    return allDemoLevels.find((l) => l.level === levelNumber) ?? null;
+}

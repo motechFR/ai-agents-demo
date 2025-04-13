@@ -72,6 +72,13 @@ module.exports = {
         "plugin:import/typescript",
       ],
     },
+    {
+      files: ["**/*.{ts,tsx}"],
+      plugins: ["markdown"],
+      settings: {
+        "@typescript-eslint/no-explicit-any": "off",
+      }
+    },
 
     // Node
     {

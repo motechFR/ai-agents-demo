@@ -1,0 +1,2 @@
+export { MermaidJS } from './MermaidJS';
+
