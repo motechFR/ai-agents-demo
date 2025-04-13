@@ -192,6 +192,7 @@ body {
 }
 #sidebar nav a.active span {
   color: inherit;
+  font-weight: bold;
 }
 
 i {
