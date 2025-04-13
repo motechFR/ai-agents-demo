@@ -189,7 +189,7 @@ body {
 
 #sidebar nav a span {
   float: right;
-  color: #eeb004;
+  color: #0f0f0f;
 }
 #sidebar nav a.active span {
   color: inherit;

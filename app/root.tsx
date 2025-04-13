@@ -43,10 +43,38 @@ export default function App() {
             <ul>
               {allDemoLevels.map((level) => (
                 <li key={level.level}>
-                  <NavLink to={`/levels/${level.level.toString().padStart(2, '0')}`} className={({ isActive, isPending }) =>
+                  <NavLink
+                    to={`/levels/${level.level.toString().padStart(2, '0')}`}
+                    className={({ isActive, isPending }) =>
                       isPending ? "pending" : isActive ? "active" : ""
-                    }>
-                  {level.title}
+                    }
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "flex-start",
+                      width: "100%",
+                      whiteSpace: "normal",
+                      wordBreak: "break-word",
+                      minHeight: "2em"
+                    }}
+                  >
+                    <div style={{
+                      backgroundColor: "#4a5568",
+                      color: "white",
+                      borderRadius: "50%",
+                      width: "24px",
+                      height: "24px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      marginRight: "8px",
+                      flexShrink: 0,
+                      fontSize: "0.8rem",
+                      fontWeight: "bold"
+                    }}>
+                      {level.level}
+                    </div>
+                    <span>{level.title}</span>
                   </NavLink>
                 </li>
               ))}
