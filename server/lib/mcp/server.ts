@@ -12,11 +12,12 @@ export function loadMcpServer() {
       });
 
     const toolNames = Object.keys(tools) as ToolName[];
-
+ 
     for (const toolName of toolNames) {
         const tool = tools[toolName];
         const functionDefinition = tool.tool.function;
-        mcpServer.tool(toolName, functionDefinition.description!, functionDefinition.parameters as any, async (payload: any) => {
+        mcpServer.tool(toolName, functionDefinition.description!, tool.zodRawSchema, async (payload: any) => {
+            console.log('payload', payload);
             const result = await tool.function(payload);
 
             const response: CallToolResult = {
@@ -27,7 +28,8 @@ export function loadMcpServer() {
                 }]
             }
             return response;
-        });
+        }
+    );
     }
 
     return mcpServer;

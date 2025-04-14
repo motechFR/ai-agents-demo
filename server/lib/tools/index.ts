@@ -1,14 +1,17 @@
-import { getEthPrice, getEthPriceToolDefinition } from "./getEthPrice";
+import { ZodRawShape } from "zod";
+import { getEthPrice, getEthPriceSchema, getEthPriceToolDefinition } from "./getEthPrice";
 import { ChatCompletionTool } from "openai/resources/chat/completions";
 
 type ToolDefinitionWithFunction = {
     tool: ChatCompletionTool;
+    zodRawSchema: ZodRawShape;
     function: (args: any) => Promise<any> | any;
 }
 
 export const tools = {
     getEthPrice: {
         tool: getEthPriceToolDefinition,
+        zodRawSchema: getEthPriceSchema.shape,
         function: getEthPrice,
     },
 } satisfies Readonly<Record<string, ToolDefinitionWithFunction>>;

@@ -1,68 +1,68 @@
 import Router, { RouterContext } from 'koa-router';
 import { loadMcpServer } from 'server/lib/mcp/server';
-
+import { SSEServerTransport } from '@modelcontextprotocol/sdk/server/sse.js';
 // Define capabilities once to reuse in GET and POST handlers
 
 const mcpServer = loadMcpServer()
 
-export const healthRouter = new Router({
-  prefix: '/mcp'
+const apiRoute = '/mcp';
+
+// Handle a single SSE transport
+const transportRef = {
+  transport: null as SSEServerTransport | null,
+}
+
+export const mcpRouter = new Router({
+  prefix: apiRoute
 });
 
 // GET endpoint returns capabilities directly
-healthRouter.get('/', (ctx: RouterContext) => {
-  ctx.body = {
-    ...serverCapabilities
-  }
+mcpRouter.get('/sse', async (ctx: RouterContext) => {
+   
+    console.log('SSE endpoint hit');
+
+    // Set headers required for SSE
+    ctx.set({
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      'Connection': 'keep-alive',
+      'X-Accel-Buffering': 'no' // Disable nginx buffering if you're using it
+    });
+  
+    // Prevent Koa from closing the connection automatically
+    ctx.respond = false;
+  
+    const messageUrl = `${apiRoute}/message`;
+  
+    const sseTransport = new SSEServerTransport(messageUrl, ctx.res);
+  
+    transportRef.transport = sseTransport;
+  
+    await mcpServer.connect(sseTransport);
+  
+    // Handle connection close
+    ctx.req.on('close', () => {
+      sseTransport.close().catch(err => {
+        console.error('Error disconnecting SSE transport:', err);
+      });
+    });
 });
 
 // POST endpoint handles method execution
-healthRouter.post('/', async (ctx: RouterContext) => {
-  const { method, params } = ctx.request.body as { 
-    method: string; 
-    params?: Record<string, unknown>;
-  };
+mcpRouter.post('/message', async (ctx: RouterContext) => {
 
-  // Handle different methods based on the payload
-  switch (method) {
-    case 'getQuote':
-      ctx.body = { price: 42.0 };
-      break;
-    
-    case 'executeTrade':
-      ctx.body = { status: "success" };
-      break;
-      
-    case 'listResources':
-      ctx.body = {
-        resources: [
-          {
-            uri: "file:///example.txt",
-            name: "Example Resource",
-          },
-        ],
-      };
-      break;
-      
-    case 'readResource':
-      if (params?.uri === "file:///example.txt") {
-        ctx.body = {
-          contents: [
-            {
-              uri: "file:///example.txt",
-              mimeType: "text/plain",
-              text: "This is the content of the example resource.",
-            },
-          ],
-        };
-      } else {
-        ctx.status = 404;
-        ctx.body = { error: "Resource not found" };
-      }
-      break;
-      
-    default:
-      ctx.status = 400;
-      ctx.body = { error: "Method not supported" };
+  console.log('POST endpoint hit');
+
+  const sseTransport = transportRef.transport;
+
+  if (!sseTransport) {
+    ctx.status = 500;
+    ctx.body = { error: 'SSE transport not initialized' };
+    return;
   }
+
+  ctx.respond = false;
+
+
+  await sseTransport.handlePostMessage(ctx.req, ctx.res, ctx.request.body);
 });

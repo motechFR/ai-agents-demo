@@ -2,7 +2,7 @@ import Koa from 'koa';
 import cors from '@koa/cors';
 import bodyParser from 'koa-bodyparser';
 import { healthRouter } from './routes/health';
-import { healthRouter as mcpRouter } from './routes/mcp';
+import { mcpRouter } from './routes/mcp';
 
 const app = new Koa();
 
