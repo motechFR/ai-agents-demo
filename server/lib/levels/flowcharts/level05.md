@@ -7,43 +7,45 @@ graph TD
         ConversationHistory -- "Reads" --> Client
     end
 
+
     subgraph Server Layer
-        APIHandler["API Handler"]
+        subgraph API Gateway
+            APIHandler["API Handler"]
+        end
+
+         subgraph Agent
+            MessageHandler["Message Handler"]
+            SystemPrompt["System Prompt"]
+            LLMClient["LLM API Client"]
+            SelectedTools["Selected Tools"]
+            ToolCallTest{{"Tool Call?"}}
+            
+            subgraph Models
+                OpenAI["OpenAI"]
+            end
+            
+            MessageHandler -- "Retrieves" --> SystemPrompt
+            MessageHandler -- "Calls" --> LLMClient
+            LLMClient -- "API Request (message + system prompt)" --> OpenAI
+            OpenAI -- "API Response" --> LLMClient
+            LLMClient -- "Returns response" --> MessageHandler
+            MessageHandler -- "Checks response" --> ToolCallTest
+            ToolCallTest -- "Yes" --> SelectedTools
+            ToolCallTest -- "No" --> APIHandler
+            MessageHandler -- "References" --> SelectedTools
+            SelectedTools -- "Requests execution" --> GetEthPrice
+            GetEthPrice -- "Returns results" --> MessageHandler
+        end
         
         subgraph Tools Repository
             ToolsRegistry["Tools Registry"]
             GetEthPrice["getEthPrice"]
             OtherTools["Other Tools..."]
-            ToolExecutionService["Tool Execution Service"]
             
             ToolsRegistry -- "Contains" --> GetEthPrice
             ToolsRegistry -- "Contains" --> OtherTools
             ToolExecutionService -- "Executes" --> GetEthPrice
         end
-    end
-    
-    subgraph Agent
-        MessageHandler["Message Handler"]
-        SystemPrompt["System Prompt"]
-        LLMClient["LLM API Client"]
-        SelectedTools["Selected Tools"]
-        ToolCallTest{{"Tool Call?"}}
-        
-        subgraph Models
-            OpenAI["OpenAI"]
-        end
-        
-        MessageHandler -- "Retrieves" --> SystemPrompt
-        MessageHandler -- "Calls" --> LLMClient
-        LLMClient -- "API Request (message + system prompt)" --> OpenAI
-        OpenAI -- "API Response" --> LLMClient
-        LLMClient -- "Returns response" --> MessageHandler
-        MessageHandler -- "Checks response" --> ToolCallTest
-        ToolCallTest -- "Yes" --> SelectedTools
-        ToolCallTest -- "No" --> APIHandler
-        MessageHandler -- "References" --> SelectedTools
-        SelectedTools -- "Requests execution" --> GetEthPrice
-        GetEthPrice -- "Returns results" --> MessageHandler
     end
 
     Client -- "Request" --> APIHandler

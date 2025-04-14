@@ -72,6 +72,12 @@ module.exports = {
         "plugin:import/typescript",
       ],
     },
+    {
+      files: ["**/*.{js,jsx,ts,tsx}"],
+      overrides: {
+        "@typescript-eslint/no-explicit-any": "off",
+      }
+    },
 
     // Node
     {
