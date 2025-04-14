@@ -13,6 +13,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 code {
@@ -96,18 +100,41 @@ form[action$="destroy"] button {
   border-width: 0;
 }
 
-body {
-  display: flex;
-  height: 100%;
-  width: 100%;
-}
-
 #sidebar {
   width: 22rem;
   background-color: #f7f7f7;
   border-right: solid 1px #e3e3e3;
   display: flex;
   flex-direction: column;
+  transition: width 0.3s ease;
+}
+
+#sidebar.collapsed {
+  width: 4rem;
+}
+
+#sidebar.collapsed h1 {
+  display: none;
+}
+
+#sidebar.collapsed > * {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+#sidebar.collapsed nav a {
+  padding: 0.5rem;
+  justify-content: center;
+}
+
+#sidebar.collapsed nav a:hover {
+  background: #e3e3e3;
+  border-radius: 10%;
+}
+
+#sidebar.collapsed nav a.active {
+  background: hsl(199, 32%, 60%);
+  border-radius: 10%;
 }
 
 #sidebar > * {
@@ -122,8 +149,6 @@ body {
   align-items: center;
   margin: 0;
   padding: 1rem 2rem;
-  border-top: 1px solid #e3e3e3;
-  order: 1;
   line-height: 1;
 }
 
@@ -189,10 +214,11 @@ body {
 
 #sidebar nav a span {
   float: right;
-  color: #eeb004;
+  color: #0f0f0f;
 }
 #sidebar nav a.active span {
   color: inherit;
+  font-weight: bold;
 }
 
 i {
@@ -255,8 +281,9 @@ i {
 
 #detail {
   flex: 1;
-  padding: 2rem 4rem;
+  padding: 2rem;
   width: 100%;
+  overflow-x: hidden;
 }
 
 #detail.loading {
@@ -394,4 +421,17 @@ i {
   align-items: center;
   justify-content: center;
   width: 100%;
+}
+
+.side-by-side-container {
+  display: flex;
+  gap: 2rem;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.content-section {
+  flex: 1;
+  min-width: 300px;
+  max-width: 100%;
 }
