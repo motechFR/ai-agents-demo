@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 export type Message = {
   id: string;
@@ -15,6 +15,33 @@ export type ChatHistoryProps = {
 
 export function ChatHistory({ messages = [], onSendMessage, suggestedMessages = [] }: ChatHistoryProps) {
   const [newMessage, setNewMessage] = useState('');
+  const suggestedMessagesRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!suggestedMessagesRef.current) return;
+    setIsDragging(true);
+    setStartX(e.pageX - suggestedMessagesRef.current.offsetLeft);
+    setScrollLeft(suggestedMessagesRef.current.scrollLeft);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !suggestedMessagesRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - suggestedMessagesRef.current.offsetLeft;
+    const walk = (x - startX) * 2;
+    suggestedMessagesRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseLeave = () => {
+    setIsDragging(false);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,12 +71,25 @@ export function ChatHistory({ messages = [], onSendMessage, suggestedMessages = 
         )}
       </div>
       {suggestedMessages.length > 0 && (
-        <div className="suggested-messages">
+        <div 
+          ref={suggestedMessagesRef}
+          className="suggested-messages"
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseLeave}
+        >
           {suggestedMessages.map((suggestion, index) => (
             <button
               key={index}
               className="suggestion-bubble"
-              onClick={() => onSendMessage?.(suggestion)}
+              onClick={(e) => {
+                if (isDragging) {
+                  e.preventDefault();
+                  return;
+                }
+                onSendMessage?.(suggestion);
+              }}
             >
               {suggestion}
             </button>

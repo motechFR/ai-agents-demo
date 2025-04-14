@@ -13,6 +13,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 code {
@@ -94,12 +98,6 @@ form[action$="destroy"] button {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border-width: 0;
-}
-
-body {
-  display: flex;
-  height: 100%;
-  width: 100%;
 }
 
 #sidebar {
@@ -283,8 +281,9 @@ i {
 
 #detail {
   flex: 1;
-  padding: 2rem 4rem;
+  padding: 2rem;
   width: 100%;
+  overflow-x: hidden;
 }
 
 #detail.loading {
@@ -422,4 +421,17 @@ i {
   align-items: center;
   justify-content: center;
   width: 100%;
+}
+
+.side-by-side-container {
+  display: flex;
+  gap: 2rem;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.content-section {
+  flex: 1;
+  min-width: 300px;
+  max-width: 100%;
 }
