@@ -123,4 +123,21 @@
 
 .suggestion-bubble:hover {
   background-color: #e0e0e0;
+}
+
+.message-content {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.message-content div {
+  margin-bottom: 0.5em;
+}
+
+.message-content div:last-child {
+  margin-bottom: 0;
+}
+
+.message-content strong {
+  font-weight: 600;
 } 

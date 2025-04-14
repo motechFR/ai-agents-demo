@@ -13,6 +13,18 @@ export type ChatHistoryProps = {
   suggestedMessages?: string[];
 };
 
+const formatMessage = (content: string) => {
+  // Split by newlines and wrap each line in a div
+  const lines = content.split('\n');
+  return lines.map((line, index) => {
+    // Replace **text** with <strong>text</strong>
+    const formattedLine = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    return (
+      <div key={index} dangerouslySetInnerHTML={{ __html: formattedLine }} />
+    );
+  });
+};
+
 export function ChatHistory({ messages = [], onSendMessage, suggestedMessages = [] }: ChatHistoryProps) {
   const [newMessage, setNewMessage] = useState('');
   const suggestedMessagesRef = useRef<HTMLDivElement>(null);
@@ -62,7 +74,7 @@ export function ChatHistory({ messages = [], onSendMessage, suggestedMessages = 
               key={message.id} 
               className={`message ${message.sender === 'assistant' ? 'ai-message' : 'human-message'}`}
             >
-              <div className="message-content">{message.content}</div>
+              <div className="message-content">{formatMessage(message.content)}</div>
               <div className="message-timestamp">
                 {message.timestamp.toLocaleTimeString()}
               </div>
