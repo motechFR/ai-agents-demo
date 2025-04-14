@@ -9,7 +9,7 @@
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
     "start": "remix-serve build/server/index.js",
     "server:dev": "npx tsx --watch ./server/main.ts",
-    "script": "npx dotenv -e .env -- npx tsx ./server/lib/tools/getEthPrice.ts",
+    "script": "npx dotenv -e .env -- npx tsx",
     "typecheck": "tsc"
   },
   "dependencies": {
@@ -17,6 +17,7 @@
     "@remix-run/node": "^2.16.5",
     "@remix-run/react": "^2.16.5",
     "@remix-run/serve": "^2.16.5",
+    "chalk": "^5.4.1",
     "dotenv-cli": "^8.0.0",
     "isbot": "^4.1.0",
     "koa": "^2.16.1",
@@ -31,6 +32,7 @@
     "tiny-invariant": "^1.3.1",
     "tsx": "^4.19.3",
     "uuid": "^11.1.0",
+    "viem": "^2.26.5",
     "vite-plugin-markdown": "^2.2.0",
     "zod": "^3.24.2"
   },
