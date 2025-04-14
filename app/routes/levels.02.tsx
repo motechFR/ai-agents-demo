@@ -51,7 +51,7 @@ export default function Level02() {
         timestamp: new Date(),
     }];
 
-    const suggestedMessages = ['What did I just ask about?', 'How do I make an apple pie?'];
+    const suggestedMessages = ['Which cryptocurrency should I invest in?'];
 
     return (
         <LevelLayout 

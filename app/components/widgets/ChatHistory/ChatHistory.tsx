@@ -144,17 +144,18 @@ export function ChatHistory({ messages = [], onSendMessage, suggestedMessages = 
       {suggestedMessages.length > 0 && (
         <div 
           ref={suggestedMessagesRef}
-          className="suggested-messages"
-          onMouseDown={dragHandlers.handleMouseDown}
-          onMouseMove={dragHandlers.handleMouseMove}
-          onMouseUp={dragHandlers.handleMouseUp}
-          onMouseLeave={dragHandlers.handleMouseLeave}
+          className={`suggested-messages ${isAiThinking ? 'disabled' : ''}`}
+          onMouseDown={!isAiThinking ? dragHandlers.handleMouseDown : undefined}
+          onMouseMove={!isAiThinking ? dragHandlers.handleMouseMove : undefined}
+          onMouseUp={!isAiThinking ? dragHandlers.handleMouseUp : undefined}
+          onMouseLeave={!isAiThinking ? dragHandlers.handleMouseLeave : undefined}
         >
           {suggestedMessages.map((suggestion, index) => (
             <button
               key={index}
               className="suggestion-bubble"
               onClick={(e) => messageHandlers.sendSuggestion(suggestion, e)}
+              disabled={isAiThinking}
             >
               {suggestion}
             </button>
@@ -166,10 +167,17 @@ export function ChatHistory({ messages = [], onSendMessage, suggestedMessages = 
           type="text"
           value={newMessage}
           onChange={messageHandlers.updateMessage}
-          placeholder="Type your message here..."
+          placeholder={isAiThinking ? "AI is thinking..." : "Type your message here..."}
           className="chat-input"
+          disabled={isAiThinking}
         />
-        <button type="submit" className="send-button">Send</button>
+        <button 
+          type="submit" 
+          className="send-button"
+          disabled={isAiThinking}
+        >
+          Send
+        </button>
       </form>
     </div>
   );
