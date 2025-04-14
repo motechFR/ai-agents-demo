@@ -1,7 +1,6 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
-import { z } from 'zod';
-import { ToolName, tools } from 'server/lib/tools/index'
 import { CallToolResult } from '@modelcontextprotocol/sdk/types.js';
+import { ToolName, tools } from 'server/lib/tools/index';
 
 
 // Create server instance
