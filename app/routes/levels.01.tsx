@@ -74,7 +74,7 @@ export default function Level01() {
     return (
         <LevelLayout 
             levelNumber={1}
-            content={content}
+            mermaidJsChart={content}
             initialMessages={initialMessages}
             suggestedMessages={initialSuggestedMessages}
             // onSendMessage={handleSendMessage}

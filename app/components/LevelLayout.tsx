@@ -9,7 +9,7 @@ type Tab = 'mermaid' | 'chat' | 'side-by-side';
 
 interface LevelLayoutProps {
     levelNumber: number;
-    content: string;
+    mermaidJsChart: string;
     initialMessages?: Message[];
     onSendMessage?: (data: {content: string, history: Message[]}) => Promise<Message | null>;
     suggestedMessages?: string[];
@@ -18,7 +18,7 @@ interface LevelLayoutProps {
 
 export function LevelLayout({ 
     levelNumber, 
-    content, 
+    mermaidJsChart, 
     initialMessages = [],
     onSendMessage,
     suggestedMessages = [],
@@ -99,7 +99,7 @@ export function LevelLayout({
             case 'mermaid':
                 return (
                     <div className="full-width-container level-content">
-                        <MermaidJS content={content} />
+                        <MermaidJS content={mermaidJsChart} />
                     </div>
                 );
             case 'chat':
@@ -123,7 +123,7 @@ export function LevelLayout({
                             />
                         </div>
                         <div className="content-section">
-                            <MermaidJS content={content} />
+                            <MermaidJS content={mermaidJsChart} />
                         </div>
                     </div>
                 );
