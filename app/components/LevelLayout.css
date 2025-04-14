@@ -45,6 +45,22 @@
     color: #333;
 }
 
+.level-subtitle {
+    margin: 0;
+    font-size: 1rem;
+    color: #666;
+}
+
+.level-description {
+    margin: 0;
+    color: white;
+    font-size: 1rem;
+    background-color: #666;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 0.4rem 0.4rem;
+}
+
 .tab-container {
     display: flex;
     gap: 0.5rem;

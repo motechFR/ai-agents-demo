@@ -99,14 +99,12 @@ export function LevelLayout({
             case 'mermaid':
                 return (
                     <div className="full-width-container level-content">
-                        <h2>Flowchart</h2>
                         <MermaidJS content={content} />
                     </div>
                 );
             case 'chat':
                 return (
                     <div className="full-width-container level-content">
-                        <h2>AI Chat</h2>
                         <ChatHistory 
                             messages={messages}
                             onSendMessage={handleSendMessage}
@@ -118,7 +116,6 @@ export function LevelLayout({
                 return (
                     <div className="side-by-side-container level-content">
                         <div className="content-section">
-                            <h2>AI Chat</h2>
                             <ChatHistory 
                                 messages={messages}
                                 onSendMessage={handleSendMessage}
@@ -126,7 +123,6 @@ export function LevelLayout({
                             />
                         </div>
                         <div className="content-section">
-                            <h2>Flowchart</h2>
                             <MermaidJS content={content} />
                         </div>
                     </div>
@@ -138,7 +134,12 @@ export function LevelLayout({
         <div className="level-container">
             <div className="level-header">
                 <div className="level-header-left">
-                    <h1 className="level-title">Level {levelNumber}</h1>
+                    <div>
+                        <h1 className="level-title">Level {levelNumber}</h1>
+                        <h3 className="level-subtitle">{levelInfo?.title}</h3>
+                    </div>
+                </div>
+                <div>
                     <p className="level-description">{levelInfo?.description}</p>
                 </div>
                 <div className="tab-container">
@@ -147,14 +148,14 @@ export function LevelLayout({
                         onClick={() => setActiveTab('side-by-side')}
                         disabled={isLoading}
                     >
-                        Side by Side
+                        Chat & Diagram
                     </button>
                     <button 
                         className={`tab-button ${activeTab === 'mermaid' ? 'active' : ''}`}
                         onClick={() => setActiveTab('mermaid')}
                         disabled={isLoading}
                     >
-                        Flowchart
+                        Diagram
                     </button>
                     <button 
                         className={`tab-button ${activeTab === 'chat' ? 'active' : ''}`}

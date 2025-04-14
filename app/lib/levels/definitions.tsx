@@ -17,7 +17,7 @@ export const level02: DemoLevel = {
 export const level03: DemoLevel = {
     level: 3,
     title: 'Agent with Context and System Prompt',
-    description: 'Uses a persistent system prompt to guide behavior and tone',
+    description: 'Uses a persistent system prompt to guide behavior and tone, and enforce allowed conversation topics',
     mermaidJsFlowchart: undefined,
 }
 
