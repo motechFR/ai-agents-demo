@@ -23,8 +23,6 @@ export async function getEthPrice({ currency }: FunctionParameters): Promise<{am
     const response = await fetch(`https://data-api.coindesk.com/spot/v1/latest/tick?market=coinbase&instruments=ETH-${currency}&apply_mapping=true&api_key=${process.env.COINDESK_API_KEY}`);
     const data = await response.json();
 
-    console.log(JSON.stringify(data, null, 2));
-
     return {
         currency,
         amount: data.Data[`ETH-${currency}`].PRICE,
