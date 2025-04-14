@@ -51,7 +51,7 @@ export default function Level01() {
         timestamp: new Date(Date.now() - 3000),
     }, {
         "id": "b594776b-6d2f-46af-abef-7fa34eefded8",
-        "content": "I’m not a financial advisor, so I can’t provide specific investment recommendations. However, I can suggest some general factors to consider when researching cryptocurrencies:\n\n1. **Market Cap**: Look for cryptocurrencies with a solid market capitalization. Larger market cap coins tend to be less volatile.\n\n2. **Use Case**: Understand the purpose of the cryptocurrency. What problem does it solve? Does it have real-world applications?\n\n3. **Technology**: Evaluate the underlying technology. Is it innovative? Is it scalable? What are its security features?\n\n4. **Development Team**: Research the team behind the cryptocurrency. A strong, experienced team can often lead to greater adoption and success.\n\n5. **Community and Adoption**: A strong community and growing adoption can be indicators of a cryptocurrency's potential for long-term success.\n\n6. **Regulatory Environment**: Consider the legal status of the cryptocurrency in your country, as regulatory changes can impact its value.\n\n7. **Diversification**: Avoid putting all your funds into one cryptocurrency. Diversifying your investments can help manage risk.\n\n8. **Stay Informed**: Keep up with the latest news and trends in the cryptocurrency space, as the market can shift rapidly.\n\nBefore investing, it's essential to do thorough research and only invest what you can afford to lose.",
+        "content": "I'm not a financial advisor, so I can't provide specific investment recommendations. However, I can suggest some general factors to consider when researching cryptocurrencies:\n\n1. **Market Cap**: Look for cryptocurrencies with a solid market capitalization. Larger market cap coins tend to be less volatile.\n\n2. **Use Case**: Understand the purpose of the cryptocurrency. What problem does it solve? Does it have real-world applications?\n\n3. **Technology**: Evaluate the underlying technology. Is it innovative? Is it scalable? What are its security features?\n\n4. **Development Team**: Research the team behind the cryptocurrency. A strong, experienced team can often lead to greater adoption and success.\n\n5. **Community and Adoption**: A strong community and growing adoption can be indicators of a cryptocurrency's potential for long-term success.\n\n6. **Regulatory Environment**: Consider the legal status of the cryptocurrency in your country, as regulatory changes can impact its value.\n\n7. **Diversification**: Avoid putting all your funds into one cryptocurrency. Diversifying your investments can help manage risk.\n\n8. **Stay Informed**: Keep up with the latest news and trends in the cryptocurrency space, as the market can shift rapidly.\n\nBefore investing, it's essential to do thorough research and only invest what you can afford to lose.",
         sender: 'assistant',
         timestamp: new Date(),
     }]);
@@ -130,26 +130,28 @@ export default function Level01() {
 
     return (
         <div className="level-container">
-            <h1>Level 01</h1>
-            <div className="tab-container">
-                <button 
-                    className={`tab-button ${activeTab === 'mermaid' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('mermaid')}
-                >
-                    Flowchart
-                </button>
-                <button 
-                    className={`tab-button ${activeTab === 'chat' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('chat')}
-                >
-                    Chat
-                </button>
-                <button 
-                    className={`tab-button ${activeTab === 'side-by-side' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('side-by-side')}
-                >
-                    Side by Side
-                </button>
+            <div className="level-header">
+                <h1 className="level-title">Level 01</h1>
+                <div className="tab-container">
+                    <button 
+                        className={`tab-button ${activeTab === 'mermaid' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('mermaid')}
+                    >
+                        Flowchart
+                    </button>
+                    <button 
+                        className={`tab-button ${activeTab === 'chat' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('chat')}
+                    >
+                        Chat
+                    </button>
+                    <button 
+                        className={`tab-button ${activeTab === 'side-by-side' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('side-by-side')}
+                    >
+                        Side by Side
+                    </button>
+                </div>
             </div>
             {renderContent()}
         </div>

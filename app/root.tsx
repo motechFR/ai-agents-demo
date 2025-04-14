@@ -10,7 +10,7 @@ import {
   ScrollRestoration,
   useNavigation
 } from "@remix-run/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { allDemoLevels } from "./lib/levels/definitions";
 
 export const links: LinksFunction = () => [
@@ -20,7 +20,15 @@ export const links: LinksFunction = () => [
 export default function App() {
   const navigation = useNavigation();
   const isNavigating = !!navigation.location;
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(() => {
+    // We can't access localStorage during SSR, so we need to return a default value
+    if (typeof window === 'undefined') return false;
+    return localStorage.getItem('sidebarCollapsed') === 'true';
+  });
+
+  useEffect(() => {
+    localStorage.setItem('sidebarCollapsed', isCollapsed.toString());
+  }, [isCollapsed]);
 
   return (
     <html lang="en">
