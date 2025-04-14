@@ -92,13 +92,10 @@
     overflow: auto;
 }
 
-/* Update the chat container to prevent overflow */
 .chat-container {
     width: 100%;
     max-width: 100%;
     height: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
-}
-
-/* Level-specific styles can be added here if needed */ 
+} 
