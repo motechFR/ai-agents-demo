@@ -1,3 +1,4 @@
+```mermaid
 graph TD
     Client -- "Request" --> Server
     Server -- "API Request (message)" --> OpenAI
@@ -11,3 +12,4 @@ graph TD
     class Client clientStyle;
     class Server serverStyle;
     class OpenAI externalStyle;
+```
