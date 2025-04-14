@@ -27,7 +27,7 @@ export async function action({ request }: { request: Request }) {
 
 export async function loader() {
     // @ts-ignore
-    const content = await import('/app/lib/levels/flowcharts/level01.md');
+    const content = await import('server/lib/levels/flowcharts/level01.md');
     return {
         content: (content as any as {markdown: string}).markdown,
     };

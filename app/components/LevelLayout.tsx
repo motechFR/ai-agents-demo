@@ -4,7 +4,7 @@ import { ChatHistory, Message } from "~/components/widgets/ChatHistory";
 import "~/components/widgets/ChatHistory/ChatHistory.css";
 import { MermaidJS } from "~/components/widgets/MermaidJS";
 import "./LevelLayout.css";
-import { getLevel} from '~/lib/levels/definitions'
+import { getLevel} from 'server/lib/levels/definitions'
 type Tab = 'mermaid' | 'chat' | 'side-by-side';
 
 interface LevelLayoutProps {

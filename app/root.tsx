@@ -11,7 +11,7 @@ import {
   useNavigation
 } from "@remix-run/react";
 import { useState, useEffect } from "react";
-import { allDemoLevels } from "./lib/levels/definitions";
+import { allDemoLevels } from "../server/lib/levels/definitions";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: appStylesHref },
