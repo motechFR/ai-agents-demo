@@ -1,5 +1,4 @@
 .level-container {
-    padding: 1rem;
     margin: 0 auto;
     overflow-x: hidden;
     height: 100%;
@@ -24,6 +23,20 @@
     border-bottom: 1px solid #e1e1e1;
     width: 100%;
     max-width: 100%;
+}
+
+.level-header-left {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.level-header-left > p {
+    height: 100%;
+    background-color: #f0f0f0;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
 }
 
 .level-title {

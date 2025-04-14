@@ -4,7 +4,7 @@ import { ChatHistory, Message } from "~/components/widgets/ChatHistory";
 import "~/components/widgets/ChatHistory/ChatHistory.css";
 import { MermaidJS } from "~/components/widgets/MermaidJS";
 import "./LevelLayout.css";
-
+import { getLevel} from '~/lib/levels/definitions'
 type Tab = 'mermaid' | 'chat' | 'side-by-side';
 
 interface LevelLayoutProps {
@@ -29,6 +29,9 @@ export function LevelLayout({
     const [messages, setMessages] = useState<Message[]>(initialMessages);
     const [currentSuggestedMessages, setCurrentSuggestedMessages] = useState<string[]>(suggestedMessages);
     const fetcher = useFetcher<{ message: Message }>();
+
+
+    const levelInfo = getLevel(levelNumber);
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
@@ -134,7 +137,10 @@ export function LevelLayout({
     return (
         <div className="level-container">
             <div className="level-header">
-                <h1 className="level-title">Level {levelNumber}</h1>
+                <div className="level-header-left">
+                    <h1 className="level-title">Level {levelNumber}</h1>
+                    <p className="level-description">{levelInfo?.description}</p>
+                </div>
                 <div className="tab-container">
                     <button 
                         className={`tab-button ${activeTab === 'side-by-side' ? 'active' : ''}`}
