@@ -3,7 +3,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { Message } from "~/components/widgets/ChatHistory";
 import { requestChatCompletion } from 'server/lib/requestChatCompletion';
 import { LevelLayout } from "~/components/LevelLayout";
-import "./levels.02.css";
 
 export async function action({ request }: { request: Request }) {
     const {message, history} = await request.json();

@@ -7,9 +7,12 @@ graph TD
     end
 
     subgraph Server Layer
-        APIHandler["API Request Handler"]
+        APIHandler["API Handler"]
         LLMClient["LLM API Client"]
+        SystemPrompt["System Prompt"]
+        
         APIHandler -- "Forwards request" --> LLMClient
+        LLMClient -- "Reads" --> SystemPrompt
     end
 
     subgraph External Services
@@ -17,7 +20,7 @@ graph TD
     end
 
     Client -- "Request" --> APIHandler
-    LLMClient -- "API Request (message)" --> OpenAI
+    LLMClient -- "API Request (message + system prompt)" --> OpenAI
     OpenAI -- "API Response" --> LLMClient
     LLMClient -- "Response" --> APIHandler
     APIHandler -- "Response" --> Client
@@ -28,6 +31,6 @@ graph TD
     classDef historyStyle fill:#fc9,stroke:#333,stroke-width:2px;
 
     class Client clientStyle;
-    class APIHandler,LLMClient serverStyle;
+    class APIHandler,LLMClient,SystemPrompt serverStyle;
     class OpenAI externalStyle;
     class ConversationHistory historyStyle;
