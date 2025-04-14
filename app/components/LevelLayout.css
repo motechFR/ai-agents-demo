@@ -6,6 +6,8 @@
     display: flex;
     flex-direction: column;
     position: relative;
+    width: 100%;
+    max-width: 100%;
 }
 
 .level-container.loading {
@@ -20,6 +22,8 @@
     margin-bottom: 1rem;
     padding-bottom: 0.5rem;
     border-bottom: 1px solid #e1e1e1;
+    width: 100%;
+    max-width: 100%;
 }
 
 .level-title {
@@ -112,4 +116,6 @@
     view-transition-name: level-content;
     contain: layout;
     will-change: transform;
+    width: 100%;
+    max-width: 100%;
 } 
