@@ -16,20 +16,32 @@ graph TD
         SystemPrompt["System Prompt"]
         LLMClient["LLM API Client"]
         
+        subgraph Tools
+            GetEthPrice["getEthPrice"]
+        end
+        
+        subgraph Models
+            OpenAI["OpenAI"]
+        end
+        
         MessageHandler -- "Retrieves" --> SystemPrompt
         MessageHandler -- "Calls" --> LLMClient
+        MessageHandler -- "Uses" --> GetEthPrice
+        GetEthPrice -- "Returns data" --> MessageHandler
+        LLMClient -- "API Request (message + system prompt)" --> OpenAI
+        OpenAI -- "API Response" --> LLMClient
         LLMClient -- "Returns response" --> MessageHandler
     end
 
     Client -- "Request" --> APIHandler
     APIHandler -- "Forwards request" --> MessageHandler
-    LLMClient -- "API Request (message + system prompt)" --> OpenAI
-    OpenAI -- "API Response" --> LLMClient
     MessageHandler -- "Returns response" --> APIHandler
     APIHandler -- "Response" --> Client
 
     subgraph External Services
-        OpenAI
+        CoinAPI["Cryptocurrency API"]
+        GetEthPrice -- "Fetches price" --> CoinAPI
+        CoinAPI -- "Returns price" --> GetEthPrice
     end
 
     classDef clientStyle fill:#f96,stroke:#333,stroke-width:2px;
@@ -37,10 +49,14 @@ graph TD
     classDef externalStyle fill:#99f,stroke:#333,stroke-width:2px;
     classDef historyStyle fill:#fc9,stroke:#333,stroke-width:2px;
     classDef agentStyle fill:#6c9,stroke:#333,stroke-width:2px;
+    classDef toolStyle fill:#9cf,stroke:#333,stroke-width:2px;
+    classDef modelStyle fill:#c9f,stroke:#333,stroke-width:2px;
 
     class Client clientStyle;
     class APIHandler serverStyle;
     class MessageHandler,SystemPrompt,LLMClient agentStyle;
-    class OpenAI externalStyle;
+    class GetEthPrice toolStyle;
+    class OpenAI modelStyle;
+    class CoinAPI externalStyle;
     class ConversationHistory historyStyle;
 ```
