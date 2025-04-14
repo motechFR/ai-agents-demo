@@ -27,7 +27,6 @@ export function LevelLayout({
     const [isLoading, setIsLoading] = useState(true);
     const [activeTab, setActiveTab] = useState<Tab | null>(null);
     const [messages, setMessages] = useState<Message[]>(initialMessages);
-    const [currentSuggestedMessages, setCurrentSuggestedMessages] = useState<string[]>(suggestedMessages);
     const fetcher = useFetcher<{ message: Message }>();
 
 
@@ -53,8 +52,6 @@ export function LevelLayout({
     }, [activeTab, isLoading]);
 
     const handleSendMessage = async (content: string) => {
-        setCurrentSuggestedMessages([]);
-
         // Add the human message
         const humanMessage: Message = {
             id: Date.now().toString(),
@@ -108,7 +105,7 @@ export function LevelLayout({
                         <ChatHistory 
                             messages={messages}
                             onSendMessage={handleSendMessage}
-                            suggestedMessages={currentSuggestedMessages}
+                            suggestedMessages={suggestedMessages}
                         />
                     </div>
                 );
@@ -119,7 +116,7 @@ export function LevelLayout({
                             <ChatHistory 
                                 messages={messages}
                                 onSendMessage={handleSendMessage}
-                                suggestedMessages={currentSuggestedMessages}
+                                suggestedMessages={suggestedMessages}
                             />
                         </div>
                         <div className="content-section">

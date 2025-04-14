@@ -4,7 +4,7 @@ import type { DemoLevel } from './types';
 export const level01: DemoLevel = {
     level: 1,
     title: 'Basic LLM',
-    description: 'This is the first level of the demo',
+    description: 'Use only an AI and nothing else',
 }
 
 export const level02: DemoLevel = {
