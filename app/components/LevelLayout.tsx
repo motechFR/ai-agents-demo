@@ -11,7 +11,7 @@ interface LevelLayoutProps {
     levelNumber: number;
     content: string;
     initialMessages?: Message[];
-    onSendMessage?: ({content, history}: {content: string, history: Message[]}) => void;
+    onSendMessage?: (data: {content: string, history: Message[]}) => Promise<Message | null>;
     suggestedMessages?: string[];
     children?: ReactNode;
 }
@@ -40,8 +40,14 @@ export function LevelLayout({
             timestamp: new Date(),
         };
 
+        setMessages((prev) => [...prev, humanMessage]);
+
         if (onSendMessage) {
-            onSendMessage({content, history: messages});
+            // If custom handler is provided, use it
+            const responseMessage = await onSendMessage({content, history: messages});
+            if (responseMessage) {
+                setMessages((prev) => [...prev, responseMessage]);
+            }
         } else {
             // Default behavior if no custom handler provided
             fetcher.submit(
@@ -52,8 +58,6 @@ export function LevelLayout({
                 }
             );
         }
-
-        setMessages((prev) => [...prev, humanMessage]);
     };
 
     // Add an effect to handle the fetcher response
