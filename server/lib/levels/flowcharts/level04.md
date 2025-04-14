@@ -48,7 +48,6 @@ graph TD
 
     Client -- "Request" --> APIHandler
     APIHandler -- "Forwards request" --> MessageHandler
-    MessageHandler -- "Returns response" --> APIHandler
     APIHandler -- "Response" --> Client
     ToolsRegistry -- "Provides selected tools" --> SelectedTools
 
@@ -68,6 +67,7 @@ graph TD
     classDef repositoryStyle fill:#c6f,stroke:#333,stroke-width:2px;
     classDef executionStyle fill:#6cf,stroke:#333,stroke-width:2px;
     classDef decisionStyle fill:#fc6,stroke:#333,stroke-width:2px;
+
 
     class Client clientStyle;
     class APIHandler serverStyle;
