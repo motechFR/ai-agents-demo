@@ -30,7 +30,7 @@ export async function action({ request }: { request: Request }) {
 
 export async function loader() {
     // @ts-ignore
-    const content = await import('/app/lib/levels/flowcharts/level02.md');
+    const content = await import('/server/lib/levels/flowcharts/level02.md');
     return {
         content: (content as any as {markdown: string}).markdown,
     };
@@ -51,12 +51,12 @@ export default function Level02() {
         timestamp: new Date(),
     }];
 
-    const suggestedMessages = ['What did I just ask about?', 'How do I make an apple pie?'];
+    const suggestedMessages = ['Which cryptocurrency should I invest in?'];
 
     return (
         <LevelLayout 
             levelNumber={2}
-            content={content}
+            mermaidJsChart={content}
             initialMessages={initialMessages}
             suggestedMessages={suggestedMessages}
         />

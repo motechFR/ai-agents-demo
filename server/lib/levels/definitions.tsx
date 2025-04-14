@@ -4,7 +4,7 @@ import type { DemoLevel } from './types';
 export const level01: DemoLevel = {
     level: 1,
     title: 'Basic LLM',
-    description: 'This is the first level of the demo',
+    description: 'Use only an AI and nothing else',
 }
 
 export const level02: DemoLevel = {
@@ -17,7 +17,7 @@ export const level02: DemoLevel = {
 export const level03: DemoLevel = {
     level: 3,
     title: 'Agent with Context and System Prompt',
-    description: 'Uses a persistent system prompt to guide behavior and tone',
+    description: 'Uses a persistent system prompt to guide behavior and tone, and enforce allowed conversation topics',
     mermaidJsFlowchart: undefined,
 }
 
