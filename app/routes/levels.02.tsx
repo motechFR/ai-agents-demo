@@ -3,13 +3,16 @@ import { v4 as uuidv4 } from 'uuid';
 import { Message } from "~/components/widgets/ChatHistory";
 import { requestChatCompletion } from 'server/lib/requestChatCompletion';
 import { LevelLayout } from "~/components/LevelLayout";
-import "./levels.01.css";
+import "./levels.02.css";
 
 export async function action({ request }: { request: Request }) {
-    const {message} = await request.json();
+    const {message, history} = await request.json();
 
     const chatCompletion = await requestChatCompletion({
-        messages: [{
+        messages: [...history.map((m: Message) => ({
+            role: m.sender,
+            content: m.content,
+        })), {
             role: 'user',
             content: message as string,
         }],
@@ -28,13 +31,13 @@ export async function action({ request }: { request: Request }) {
 
 export async function loader() {
     // @ts-ignore
-    const content = await import('/app/lib/levels/flowcharts/level01.md');
+    const content = await import('/app/lib/levels/flowcharts/level02.md');
     return {
         content: (content as any as {markdown: string}).markdown,
     };
 }
 
-export default function Level01() {
+export default function Level02() {
     const { content } = useLoaderData<typeof loader>();
 
     const initialMessages: Message[] = [{
@@ -49,36 +52,14 @@ export default function Level01() {
         timestamp: new Date(),
     }];
 
-    const initialSuggestedMessages = ['Which cryptocurrency should I invest in?', 'How do I make an apple pie?'];
-
-    const handleSendMessage = async (content: string, messages: Message[]) => {
-        // Add the sent message to suggested messages
-        const newSuggestedMessages = [...initialSuggestedMessages, content];
-        
-        // Send as JSON
-        const response = await fetch('/levels/01', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ message: content }),
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to send message');
-        }
-
-        const data = await response.json();
-        return data.message;
-    };
+    const suggestedMessages = ['What did I just ask about?', 'How do I make an apple pie?'];
 
     return (
         <LevelLayout 
-            levelNumber={1}
+            levelNumber={2}
             content={content}
             initialMessages={initialMessages}
-            suggestedMessages={initialSuggestedMessages}
-            // onSendMessage={handleSendMessage}
+            suggestedMessages={suggestedMessages}
         />
     );
 }

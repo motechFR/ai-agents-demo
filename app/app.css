@@ -281,9 +281,12 @@ i {
 
 #detail {
   flex: 1;
-  padding: 2rem;
+  padding: 1rem;
   width: 100%;
   overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
 
 #detail.loading {

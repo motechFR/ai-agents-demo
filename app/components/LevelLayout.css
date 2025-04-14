@@ -1,0 +1,121 @@
+.level-container {
+    padding: 1rem;
+    margin: 0 auto;
+    overflow-x: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+}
+
+.level-container.loading {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.level-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e1e1e1;
+    width: 100%;
+    max-width: 100%;
+}
+
+.level-title {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.tab-container {
+    display: flex;
+    gap: 0.5rem;
+    min-height: 80%;
+}
+
+.tab-button {
+    padding: 0.5rem 1rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #666;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.tab-button:hover {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.tab-button.active {
+    background-color: #3992ff;
+    color: white;
+}
+
+.side-by-side-container {
+    display: flex;
+    gap: 2rem;
+    height: 80vh;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.content-section {
+    flex: 1;
+    height: 100%;
+    min-width: 300px;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.full-width-container {
+    width: 100%;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.content-section h2,
+.full-width-container h2 {
+    margin: 0;
+    padding: 0;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.mermaid-container {
+    border: 1px solid #e1e1e1;
+    border-radius: 8px;
+    padding: 1rem;
+    background-color: white;
+    min-height: 400px;
+    height: 100%;
+    overflow: auto;
+}
+
+.chat-container {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.level-content {
+    animation: fadeIn 0.5s ease-in-out;
+    view-transition-name: level-content;
+    contain: layout;
+    will-change: transform;
+    width: 100%;
+    max-width: 100%;
+} 

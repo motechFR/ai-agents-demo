@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 export type Message = {
   id: string;
@@ -28,9 +28,16 @@ const formatMessage = (content: string) => {
 export function ChatHistory({ messages = [], onSendMessage, suggestedMessages = [] }: ChatHistoryProps) {
   const [newMessage, setNewMessage] = useState('');
   const suggestedMessagesRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
+
+  useEffect(() => {
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!suggestedMessagesRef.current) return;
@@ -65,7 +72,7 @@ export function ChatHistory({ messages = [], onSendMessage, suggestedMessages = 
 
   return (
     <div className="chat-container">
-      <div className="chat-messages">
+      <div className="chat-messages" ref={messagesContainerRef}>
         {messages.length === 0 ? (
           <p className="empty-chat">No messages yet. Start a conversation!</p>
         ) : (
