@@ -1,5 +1,5 @@
-import { json, useLoaderData } from "@remix-run/react";
-import { useState } from "react";
+import { json, useLoaderData, useFetcher } from "@remix-run/react";
+import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import { ChatHistory, Message } from "~/components/widgets/ChatHistory";
 import "~/components/widgets/ChatHistory/ChatHistory.css";
@@ -8,8 +8,7 @@ import { requestChatCompletion } from 'server/lib/requestChatCompletion';
 import "./levels.01.css";
 
 export async function action({ request }: { request: Request }) {
-    const formData = await request.formData();
-    const message = formData.get('message');
+    const {message} = await request.json();
 
     const chatCompletion = await requestChatCompletion({
         messages: [{
@@ -41,6 +40,10 @@ type Tab = 'mermaid' | 'chat' | 'side-by-side';
 
 export default function Level01() {
     const { content } = useLoaderData<typeof loader>();
+
+    const fetcher = useFetcher<{ message: Message }>();
+
+
     const [messages, setMessages] = useState<Message[]>([]);
     const [activeTab, setActiveTab] = useState<Tab>('side-by-side');
     const [suggestedMessages, setSuggestedMessages] = useState<string[]>(['Which cryptocurrency should I invest in?', 'How do I make an apple pie?']);
@@ -57,19 +60,23 @@ export default function Level01() {
         };
         
         setMessages((prev) => [...prev, humanMessage]);
-    
-        // Send JSON to the server action
-        const response = await fetch("/routes/levels.01", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ message: content }),
-        });
 
-        const responseMessage = await response.json();
-        setMessages((prev) => [...prev, responseMessage.message]);
+        // Send as JSON
+        fetcher.submit(
+            JSON.stringify({ message: content }), 
+            { 
+                method: "POST",
+                encType: "application/json"
+            }
+        );
     };
+
+    // Add an effect to handle the fetcher response
+    useEffect(() => {
+        if (fetcher.data?.message) {
+            setMessages((prev) => [...prev, {...fetcher.data!.message, timestamp: new Date(fetcher.data!.message.timestamp)}]);
+        }
+    }, [fetcher.data]);
 
     const renderContent = () => {
         switch (activeTab) {
