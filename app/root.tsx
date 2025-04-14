@@ -1,7 +1,6 @@
 import type { LinksFunction } from "@remix-run/node";
 import appStylesHref from "./app.css?url";
 
-
 import {
   Links,
   Meta,
@@ -11,22 +10,17 @@ import {
   ScrollRestoration,
   useNavigation
 } from "@remix-run/react";
-
+import { useState } from "react";
 import { allDemoLevels } from "./lib/levels/definitions";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: appStylesHref },
 ];
 
-
-
-
 export default function App() {
-
   const navigation = useNavigation();
-
   const isNavigating = !!navigation.location;
-
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
     <html lang="en">
@@ -37,8 +31,22 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <div id="sidebar">
-          <h1>AI Agent Levels</h1>
+        <div id="sidebar" className={isCollapsed ? "collapsed" : ""}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <h1>AI Agent Levels</h1>
+            <button 
+              onClick={() => setIsCollapsed(!isCollapsed)}
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                padding: "0.5rem",
+                fontSize: "1.2rem"
+              }}
+            >
+              {isCollapsed ? "→" : "←"}
+            </button>
+          </div>
           <nav>
             <ul>
               {allDemoLevels.map((level) => (
@@ -51,7 +59,7 @@ export default function App() {
                     style={{
                       display: "flex",
                       alignItems: "center",
-                      justifyContent: "flex-start",
+                      justifyContent: isCollapsed ? "center" : "flex-start",
                       width: "100%",
                       whiteSpace: "normal",
                       wordBreak: "break-word",
@@ -67,14 +75,14 @@ export default function App() {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      marginRight: "8px",
+                      marginRight: isCollapsed ? "0" : "8px",
                       flexShrink: 0,
                       fontSize: "0.8rem",
                       fontWeight: "bold"
                     }}>
                       {level.level}
                     </div>
-                    <span>{level.title}</span>
+                    {!isCollapsed && <span>{level.title}</span>}
                   </NavLink>
                 </li>
               ))}

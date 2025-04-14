@@ -74,4 +74,28 @@
   text-align: center;
   color: #888;
   margin: auto;
+}
+
+.suggested-messages {
+  display: flex;
+  gap: 1rem;
+  padding: 0.5rem;
+  overflow-x: auto;
+  white-space: nowrap;
+  border-top: 1px solid #e1e1e1;
+  background-color: white;
+}
+
+.suggestion-bubble {
+  padding: 0.5rem 1rem;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.suggestion-bubble:hover {
+  background-color: #e0e0e0;
 } 

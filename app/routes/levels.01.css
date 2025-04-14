@@ -1,0 +1,70 @@
+.level-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.tab-container {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #e1e1e1;
+    padding-bottom: 1rem;
+}
+
+.tab-button {
+    padding: 0.5rem 1rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #666;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.tab-button:hover {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.tab-button.active {
+    background-color: #3992ff;
+    color: white;
+}
+
+.side-by-side-container {
+    display: flex;
+    gap: 2rem;
+}
+
+.content-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.full-width-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.content-section h2,
+.full-width-container h2 {
+    margin: 0;
+    padding: 0;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.mermaid-container {
+    border: 1px solid #e1e1e1;
+    border-radius: 8px;
+    padding: 1rem;
+    background-color: white;
+    min-height: 400px;
+    overflow: auto;
+} 
