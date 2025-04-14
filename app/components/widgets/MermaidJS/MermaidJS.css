@@ -1,0 +1,11 @@
+.mermaid-container {
+  max-width: var(--max-width, 100%);
+  max-height: var(--max-height, 100%);
+  overflow: auto;
+}
+
+.mermaid-diagram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} 

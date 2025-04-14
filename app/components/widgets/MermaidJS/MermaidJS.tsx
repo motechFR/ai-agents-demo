@@ -1,12 +1,12 @@
 import { useEffect, useRef } from 'react';
 import mermaid from 'mermaid';
+import './MermaidJS.css';
 
 type MermaidJSProps = {
   content: string;
   maxWidth?: string | number;
   maxHeight?: string | number;
 }
-
 
 export function MermaidJS({ content, maxWidth, maxHeight }: MermaidJSProps) {
   const mermaidRef = useRef<HTMLDivElement>(null);
@@ -42,19 +42,18 @@ export function MermaidJS({ content, maxWidth, maxHeight }: MermaidJSProps) {
     }
   }, [content]);
 
-  const containerStyle = {
-    maxWidth: maxWidth,
-    maxHeight: maxHeight,
-    overflow: 'auto'
-  };
-
-
   if (!content) {
     return null;
   }
 
   return (
-    <div style={containerStyle} className="mermaid-container">
+    <div 
+      className="mermaid-container"
+      style={{
+        '--max-width': maxWidth,
+        '--max-height': maxHeight
+      } as React.CSSProperties}
+    >
       <div ref={mermaidRef} className="mermaid-diagram"></div>
     </div>
   );

@@ -93,16 +93,16 @@ export function LevelLayout({
                 return (
                     <div className="side-by-side-container">
                         <div className="content-section">
-                            <h2>Flowchart</h2>
-                            <MermaidJS content={content} />
-                        </div>
-                        <div className="content-section">
                             <h2>AI Chat</h2>
                             <ChatHistory 
                                 messages={messages}
                                 onSendMessage={handleSendMessage}
                                 suggestedMessages={currentSuggestedMessages}
                             />
+                        </div>
+                        <div className="content-section">
+                            <h2>Flowchart</h2>
+                            <MermaidJS content={content} />
                         </div>
                     </div>
                 );
