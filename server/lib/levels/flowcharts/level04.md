@@ -1,3 +1,4 @@
+```mermaid
 graph TD
     subgraph Client Layer
         ConversationHistory[("Conversation History")]
@@ -34,3 +35,4 @@ graph TD
     class APIHandler,LLMClient,SystemPrompt serverStyle;
     class OpenAI externalStyle;
     class ConversationHistory historyStyle;
+```
