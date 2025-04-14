@@ -1,9 +1,16 @@
 .level-container {
     padding: 1rem;
-    width: 100%;
-    max-width: 100%;
     margin: 0 auto;
     overflow-x: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.level-container.loading {
+    opacity: 0;
+    pointer-events: none;
 }
 
 .level-header {
@@ -98,4 +105,11 @@
     height: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
+}
+
+.level-content {
+    animation: fadeIn 0.5s ease-in-out;
+    view-transition-name: level-content;
+    contain: layout;
+    will-change: transform;
 } 

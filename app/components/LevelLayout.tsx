@@ -24,10 +24,30 @@ export function LevelLayout({
     suggestedMessages = [],
     children 
 }: LevelLayoutProps) {
-    const [activeTab, setActiveTab] = useState<Tab>('side-by-side');
+    const [isLoading, setIsLoading] = useState(true);
+    const [activeTab, setActiveTab] = useState<Tab | null>(null);
     const [messages, setMessages] = useState<Message[]>(initialMessages);
     const [currentSuggestedMessages, setCurrentSuggestedMessages] = useState<string[]>(suggestedMessages);
     const fetcher = useFetcher<{ message: Message }>();
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const savedTab = localStorage.getItem('levelLayoutActiveTab');
+            if (savedTab) {
+                setActiveTab(savedTab as Tab);
+            }
+            // else {
+            //     setActiveTab('side-by-side');
+            // }
+            setIsLoading(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (!isLoading && activeTab) {
+            localStorage.setItem('levelLayoutActiveTab', activeTab);
+        }
+    }, [activeTab, isLoading]);
 
     const handleSendMessage = async (content: string) => {
         setCurrentSuggestedMessages([]);
@@ -68,19 +88,21 @@ export function LevelLayout({
     }, [fetcher.data]);
 
     const renderContent = () => {
-        if (children) return children;
+        if (children) {
+            return children;
+        }
 
         switch (activeTab) {
             case 'mermaid':
                 return (
-                    <div className="full-width-container">
+                    <div className="full-width-container level-content">
                         <h2>Flowchart</h2>
                         <MermaidJS content={content} />
                     </div>
                 );
             case 'chat':
                 return (
-                    <div className="full-width-container">
+                    <div className="full-width-container level-content">
                         <h2>AI Chat</h2>
                         <ChatHistory 
                             messages={messages}
@@ -91,7 +113,7 @@ export function LevelLayout({
                 );
             case 'side-by-side':
                 return (
-                    <div className="side-by-side-container">
+                    <div className="side-by-side-container level-content">
                         <div className="content-section">
                             <h2>AI Chat</h2>
                             <ChatHistory 
@@ -117,24 +139,27 @@ export function LevelLayout({
                     <button 
                         className={`tab-button ${activeTab === 'side-by-side' ? 'active' : ''}`}
                         onClick={() => setActiveTab('side-by-side')}
+                        disabled={isLoading}
                     >
                         Side by Side
                     </button>
                     <button 
                         className={`tab-button ${activeTab === 'mermaid' ? 'active' : ''}`}
                         onClick={() => setActiveTab('mermaid')}
+                        disabled={isLoading}
                     >
                         Flowchart
                     </button>
                     <button 
                         className={`tab-button ${activeTab === 'chat' ? 'active' : ''}`}
                         onClick={() => setActiveTab('chat')}
+                        disabled={isLoading}
                     >
                         Chat
                     </button>
                 </div>
             </div>
-            {renderContent()}
+            {!isLoading && renderContent()}
         </div>
     );
 } 
