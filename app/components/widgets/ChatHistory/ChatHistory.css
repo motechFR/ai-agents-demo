@@ -180,4 +180,19 @@
     transform: translateY(-5px);
     opacity: 1;
   }
+}
+
+/* Typing effect styles */
+.message-content div:last-child::after {
+  content: none;
+}
+
+@keyframes cursor-blink {
+  from, to { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Remove cursor from completed messages */
+.message-content.typing-complete div:last-child::after {
+  content: none;
 } 
