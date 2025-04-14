@@ -133,6 +133,12 @@ export default function Level01() {
             <div className="level-header">
                 <h1 className="level-title">Level 01</h1>
                 <div className="tab-container">
+                <button 
+                        className={`tab-button ${activeTab === 'side-by-side' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('side-by-side')}
+                    >
+                        Side by Side
+                    </button>
                     <button 
                         className={`tab-button ${activeTab === 'mermaid' ? 'active' : ''}`}
                         onClick={() => setActiveTab('mermaid')}
@@ -144,12 +150,6 @@ export default function Level01() {
                         onClick={() => setActiveTab('chat')}
                     >
                         Chat
-                    </button>
-                    <button 
-                        className={`tab-button ${activeTab === 'side-by-side' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('side-by-side')}
-                    >
-                        Side by Side
                     </button>
                 </div>
             </div>
