@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import './ChatHistory.css';
 
 export type Message = {
   id: string;
@@ -12,6 +13,14 @@ export type ChatHistoryProps = {
   onSendMessage?: (message: string) => void;
   suggestedMessages?: string[];
 };
+
+const ThinkingIndicator = () => (
+  <div className="thinking-indicator">
+    <div className="thinking-bubble"></div>
+    <div className="thinking-bubble"></div>
+    <div className="thinking-bubble"></div>
+  </div>
+);
 
 const formatMessage = (content: string) => {
   // Split by newlines and wrap each line in a div
@@ -32,6 +41,8 @@ export function ChatHistory({ messages = [], onSendMessage, suggestedMessages = 
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
+  
+  const isAiThinking = messages.length > 0 && messages[messages.length - 1].sender === 'user';
 
   useEffect(() => {
     if (messagesContainerRef.current) {
@@ -76,17 +87,24 @@ export function ChatHistory({ messages = [], onSendMessage, suggestedMessages = 
         {messages.length === 0 ? (
           <p className="empty-chat">No messages yet. Start a conversation!</p>
         ) : (
-          messages.map((message) => (
-            <div 
-              key={message.id} 
-              className={`message ${message.sender === 'assistant' ? 'ai-message' : 'human-message'}`}
-            >
-              <div className="message-content">{formatMessage(message.content)}</div>
-              <div className="message-timestamp">
-                {message.timestamp.toLocaleTimeString()}
+          <>
+            {messages.map((message) => (
+              <div 
+                key={message.id} 
+                className={`message ${message.sender === 'assistant' ? 'ai-message' : 'human-message'}`}
+              >
+                <div className="message-content">{formatMessage(message.content)}</div>
+                <div className="message-timestamp">
+                  {message.timestamp.toLocaleTimeString()}
+                </div>
               </div>
-            </div>
-          ))
+            ))}
+            {isAiThinking && (
+              <div className="message ai-message">
+                <ThinkingIndicator />
+              </div>
+            )}
+          </>
         )}
       </div>
       {suggestedMessages.length > 0 && (
