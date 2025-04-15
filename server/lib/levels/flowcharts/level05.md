@@ -8,12 +8,18 @@ graph TD
     end
 
 
+
+    subgraph Secrets Vault
+        Wallet["Wallet"]
+        APICredentials["API Credentials"]
+    end
+
     subgraph Server Layer
         subgraph API Gateway
             APIHandler["API Handler"]
         end
 
-         subgraph Agent
+        subgraph Agent
             MessageHandler["Message Handler"]
             SystemPrompt["System Prompt"]
             LLMClient["LLM API Client"]
@@ -33,18 +39,27 @@ graph TD
             ToolCallTest -- "Yes" --> SelectedTools
             ToolCallTest -- "No" --> APIHandler
             MessageHandler -- "References" --> SelectedTools
-            SelectedTools -- "Requests execution" --> GetEthPrice
-            GetEthPrice -- "Returns results" --> MessageHandler
         end
         
         subgraph Tools Repository
+            %% Elements
             ToolsRegistry["Tools Registry"]
             GetEthPrice["getEthPrice"]
+            SellWethForUSDC["sellWethForUSDC"]
+            SellUSDCForWeth["sellUSDCForWeth"]
+            GetQuote["getQuote"]
             OtherTools["Other Tools..."]
-            
+            SelectedTools["Selected Tools"]
+
+            %% Flow
+            SelectedTools -- "Requests execution" --> SellWethForUSDC
+            SellWethForUSDC -- "Returns results" --> MessageHandler
+
             ToolsRegistry -- "Contains" --> GetEthPrice
+            ToolsRegistry -- "Contains" --> SellWethForUSDC
+            ToolsRegistry -- "Contains" --> SellUSDCForWeth
+            ToolsRegistry -- "Contains" --> GetQuote
             ToolsRegistry -- "Contains" --> OtherTools
-            ToolExecutionService -- "Executes" --> GetEthPrice
         end
     end
 
@@ -53,10 +68,23 @@ graph TD
     APIHandler -- "Response" --> Client
     ToolsRegistry -- "Provides selected tools" --> SelectedTools
 
+    Wallet -- "Provides credentials" --> SellWethForUSDC
+    APICredentials -- "Provides access" --> SellWethForUSDC
+
+    subgraph Blockchain
+        Base["Base Blockchain"]
+    end
+
     subgraph External Services
         CoinAPI["Cryptocurrency API"]
+        Alchemy["Alchemy"]
+        
         GetEthPrice -- "Fetches price" --> CoinAPI
-        CoinAPI -- "Returns price" --> GetEthPrice
+        
+        SellWethForUSDC -- "Executes swap" --> Alchemy
+        Alchemy -- "Interacts with" --> Base
+        Base -- "Returns data" --> Alchemy
+        Alchemy -- "Returns result" --> SellWethForUSDC
     end
 
     classDef clientStyle fill:#f96,stroke:#333,stroke-width:2px;
@@ -67,18 +95,20 @@ graph TD
     classDef toolStyle fill:#9cf,stroke:#333,stroke-width:2px;
     classDef modelStyle fill:#c9f,stroke:#333,stroke-width:2px;
     classDef repositoryStyle fill:#c6f,stroke:#333,stroke-width:2px;
-    classDef executionStyle fill:#6cf,stroke:#333,stroke-width:2px;
     classDef decisionStyle fill:#fc6,stroke:#333,stroke-width:2px;
+    classDef blockchainStyle fill:#9c6,stroke:#333,stroke-width:2px;
+    classDef secretsStyle fill:#fc6,stroke:#333,stroke-width:2px,stroke-dasharray: 5 5;
 
 
     class Client clientStyle;
     class APIHandler serverStyle;
     class MessageHandler,SystemPrompt,LLMClient,SelectedTools agentStyle;
-    class GetEthPrice,OtherTools toolStyle;
+    class GetEthPrice,OtherTools,SellWethForUSDC,SellUSDCForWeth,GetQuote toolStyle;
     class OpenAI modelStyle;
-    class CoinAPI externalStyle;
+    class CoinAPI,Alchemy externalStyle;
     class ConversationHistory historyStyle;
     class ToolsRegistry repositoryStyle;
-    class ToolExecutionService executionStyle;
     class ToolCallTest decisionStyle;
+    class Base blockchainStyle;
+    class Wallet,APICredentials secretsStyle;
 ```

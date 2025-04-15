@@ -13,7 +13,7 @@ graph TD
             APIHandler["API Handler"]
         end
 
-         subgraph Agent
+        subgraph Agent
             MessageHandler["Message Handler"]
             SystemPrompt["System Prompt"]
             LLMClient["LLM API Client"]
@@ -33,18 +33,22 @@ graph TD
             ToolCallTest -- "Yes" --> SelectedTools
             ToolCallTest -- "No" --> APIHandler
             MessageHandler -- "References" --> SelectedTools
-            SelectedTools -- "Requests execution" --> GetEthPrice
-            GetEthPrice -- "Returns results" --> MessageHandler
         end
         
         subgraph Tools Repository
+            %% Elements
             ToolsRegistry["Tools Registry"]
             GetEthPrice["getEthPrice"]
             OtherTools["Other Tools..."]
-            
+            SelectedTools["Selected Tools"]
+
+            %% Flow
+            SelectedTools -- "Requests execution" --> GetEthPrice
+
+            GetEthPrice -- "Returns results" --> MessageHandler
+
             ToolsRegistry -- "Contains" --> GetEthPrice
             ToolsRegistry -- "Contains" --> OtherTools
-            ToolExecutionService -- "Executes" --> GetEthPrice
         end
     end
 
@@ -67,7 +71,6 @@ graph TD
     classDef toolStyle fill:#9cf,stroke:#333,stroke-width:2px;
     classDef modelStyle fill:#c9f,stroke:#333,stroke-width:2px;
     classDef repositoryStyle fill:#c6f,stroke:#333,stroke-width:2px;
-    classDef executionStyle fill:#6cf,stroke:#333,stroke-width:2px;
     classDef decisionStyle fill:#fc6,stroke:#333,stroke-width:2px;
 
 
@@ -79,6 +82,5 @@ graph TD
     class CoinAPI externalStyle;
     class ConversationHistory historyStyle;
     class ToolsRegistry repositoryStyle;
-    class ToolExecutionService executionStyle;
     class ToolCallTest decisionStyle;
 ```
