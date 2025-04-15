@@ -21,6 +21,7 @@
     "@remix-run/react": "^2.16.5",
     "@remix-run/serve": "^2.16.5",
     "@uniswap/sdk-core": "^7.7.2",
+    "@uniswap/v3-sdk": "^3.25.2",
     "chalk": "^5.4.1",
     "concurrently": "^9.1.2",
     "dotenv-cli": "^8.0.0",

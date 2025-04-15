@@ -100,7 +100,7 @@ export async function loader() {
     };
 }
 
-export default function Level04() {
+export default function Level05() {
     const { content } = useLoaderData<typeof loader>();
 
     const initialMessages: Message[] = [];
@@ -109,7 +109,7 @@ export default function Level04() {
 
     return (
         <LevelLayout 
-            levelNumber={4}
+            levelNumber={5}
             mermaidJsChart={content}
             initialMessages={initialMessages}
             suggestedMessages={suggestedMessages}
