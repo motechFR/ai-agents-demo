@@ -1,7 +1,7 @@
-import { z } from 'zod';
+import { z, ZodRawShape } from 'zod';
 import { zodFunction } from 'openai/helpers/zod';
 
-const getEthPriceSchema = z.object({
+export const getEthPriceSchema = z.object({
     currency: z.enum(['USD', 'EUR', 'JPY'])
     .describe('The currency to get the price in')
 }).describe('Get the price of Ethereum');

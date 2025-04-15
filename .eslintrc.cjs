@@ -73,9 +73,8 @@ module.exports = {
       ],
     },
     {
-      files: ["**/*.{ts,tsx}"],
-      plugins: ["markdown"],
-      settings: {
+      files: ["**/*.{js,jsx,ts,tsx}"],
+      overrides: {
         "@typescript-eslint/no-explicit-any": "off",
       }
     },

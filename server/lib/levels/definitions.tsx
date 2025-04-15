@@ -62,9 +62,10 @@ export const allDemoLevels: DemoLevel[] = [
     level03,
     level04,
     level05,
-    level06,
-    level07,
-    level08,
+    // Readd these later when we are finished
+    // level06,
+    // level07,
+    // level08,
 ]
 
 
