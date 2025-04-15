@@ -127,7 +127,7 @@ export async function swap({
   });
 
   if (!parsedLogs || parsedLogs.length === 0) {
-    throw new Error("Swap event not found in transaction logs");
+    console.log("Swap event not found in transaction logs");
   }
 
   const decodedLog = parsedLogs[0];
