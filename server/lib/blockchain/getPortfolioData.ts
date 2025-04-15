@@ -124,9 +124,11 @@ export async function getPortfolioData({ address }: FunctionParameters): Promise
       },
     });
 
+    console.log(JSON.stringify(data, null, 2));
+
     const responseData: ChainPortfolioData = {
       totalBalanceUSD: parseFloat(data.portfolioV2.tokenBalances.totalBalanceUSD.toFixed(2)),
-      chain: data.portfolioV2.tokenBalances.byToken.edges[0].node.network.name,
+      chain: Network.BASE_MAINNET,
       balances: data.portfolioV2.tokenBalances.byToken.edges.map((edge) => ({
         balance: parseFloat(edge.node.balance.toFixed(2)),
         balanceUSD: parseFloat(edge.node.balanceUSD.toFixed(2)),
