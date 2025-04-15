@@ -135,7 +135,7 @@ export async function getPortfolioData({ address }: FunctionParameters): Promise
         tokenSymbol: edge.node.symbol,
         tokenAddress: edge.node.tokenAddress,
         network: edge.node.network.name,
-      })),
+      })).sort((a, b) => b.balanceUSD - a.balanceUSD),
     }
 
     return responseData;

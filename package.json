@@ -8,7 +8,7 @@
     "dev": "remix vite:dev",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
     "start": "remix-serve build/server/index.js",
-    "server:dev": "npx tsx --watch ./server/main.ts",
+    "server:dev": "npx dotenv -e .env -- npx tsx --watch ./server/main.ts",
     "script": "npx dotenv -e .env -- npx tsx",
     "typecheck": "tsc"
   },
