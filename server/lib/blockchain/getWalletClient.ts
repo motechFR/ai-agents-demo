@@ -13,7 +13,7 @@ const BASE_RPC_URL = () => {
     if (process.env.ALCHEMY_API_KEY) {
         return `https://base-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_API_KEY}`
     }
-    return 'https://mainnet.base.org'
+    throw new Error("ALCHEMY_API_KEY is not set");
 }
 
 export const ethClient = createPublicClient({

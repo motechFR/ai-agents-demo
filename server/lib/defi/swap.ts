@@ -245,9 +245,9 @@ const swapRouterABI = [
 ] as const;
 
 // Example usage with WETH - updated to use regular swap function
-swap({
-  sellToken: getWETHToken(), // This will auto wrap ETH if needed
-  buyToken: new Token(base.id, "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", 6), // Base USDC
-  sellAmount: 0.001,
-  privateKey: process.env.WALLET_PRIVATE_KEY as string,
-}).then(console.log).catch(console.error);
+// swap({
+//   sellToken: getWETHToken(), // This will auto wrap ETH if needed
+//   buyToken: new Token(base.id, "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", 6), // Base USDC
+//   sellAmount: 0.001,
+//   privateKey: process.env.WALLET_PRIVATE_KEY as string,
+// }).then(console.log).catch(console.error);

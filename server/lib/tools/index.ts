@@ -3,6 +3,7 @@ import { getEthPrice, getEthPriceSchema, getEthPriceToolDefinition } from "serve
 import { ChatCompletionTool } from "openai/resources/chat/completions";
 import { getPortfolioData, getPortfolioDataToolDefinition } from "../blockchain/getPortfolioData";
 import { getPortfolioDataSchema } from "../blockchain/getPortfolioData";
+import { getTokenQuoteSchema, getTokenQuote, getTokenQuoteToolDefinition, sellUSDCForWETH, sellUSDCForWETHToolDefinition, sellWETHForUSDC, sellWETHForUSDCToolDefinition, swapSchema } from "./defi";
 
 type ToolDefinitionWithFunction = {
     tool: ChatCompletionTool;
@@ -20,7 +21,22 @@ export const tools = {
         tool: getPortfolioDataToolDefinition,
         zodRawSchema: getPortfolioDataSchema.shape,
         function: getPortfolioData,
-    }
+    },
+    sellUSDCForWETH: {
+        tool: sellUSDCForWETHToolDefinition,
+        zodRawSchema: swapSchema.shape,
+        function: sellUSDCForWETH,
+    },
+    sellWETHForUSDC: {
+        tool: sellWETHForUSDCToolDefinition,
+        zodRawSchema: swapSchema.shape,
+        function: sellWETHForUSDC,
+    },
+    getTokenQuote: {
+        tool: getTokenQuoteToolDefinition,
+        zodRawSchema: getTokenQuoteSchema.shape,
+        function: getTokenQuote,
+    },
 } satisfies Readonly<Record<string, ToolDefinitionWithFunction>>;
 
 export type ToolName = keyof typeof tools;
