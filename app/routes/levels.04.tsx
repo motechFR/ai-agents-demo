@@ -101,7 +101,7 @@ export default function Level04() {
 
     const initialMessages: Message[] = [];
 
-    const suggestedMessages = ['What is the price of Bitcoin?', 'What is the price of Ethereum?'];
+    const suggestedMessages = ['What is the price of Ethereum?'];
 
     return (
         <LevelLayout 

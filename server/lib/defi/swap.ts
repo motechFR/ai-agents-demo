@@ -87,13 +87,9 @@ export async function swap({
     privateKey,
   });
 
-  await ensureAllowance({
-    token: buyToken,
-    spender: SWAP_ROUTER_ADDRESS,
-    privateKey,
-  });
-
   console.log("allowance checked")
+
+  const gasPrice = await ethClient.getGasPrice();
 
   const data = encodeFunctionData({
     abi: swapRouterABI,
@@ -118,12 +114,13 @@ export async function swap({
     value: 0n,
     type: "eip1559",
     chainId: base.id,
-    ...(await ethClient.estimateFeesPerGas()),
+    maxFeePerGas: gasPrice * 2n, // Double the current gas price
+    maxPriorityFeePerGas: gasPrice / 2n, // Set priority fee to half current gas price
   };
   console.log("swapTx", swapTx);
   const tx = await walletClient.sendTransaction(swapTx);
 
-  const receipt = await ethClient.waitForTransactionReceipt({ hash: tx });
+  const receipt = await ethClient.waitForTransactionReceipt({ hash: tx, confirmations: 2 });
 
   const parsedLogs = parseEventLogs({
     logs: receipt.logs,
