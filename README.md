@@ -16,6 +16,17 @@ The tutorial is structured in progressive levels:
 
 ## Getting Started
 
+## Development
+
+- The frontend is built with Remix
+- The backend uses Koa and implements the Model Context Protocol
+- Each level demonstrates a different aspect of AI agent architecture
+
+For more information on the Model Context Protocol, visit [modelcontextprotocol.io](https://modelcontextprotocol.io).
+
+For more information on the Remix framework, visit [remix.run](https://remix.run).
+
+
 ### Prerequisites
 
 - Node.js v22.13.1 (this repository has only been tested with this version)
@@ -54,31 +65,8 @@ npm run dev:all
 
 ## Testing the MCP Server
 
-You can test the Model Context Protocol server using the MCP Inspector:
+You can test the Model Context Protocol server using the [MCP Inspector](https://github.com/modelcontextprotocol/inspector):
 
-```sh
-npx @modelcontextprotocol/inspector -e NODE_ENV=development -- npx tsx ./server/main.ts
-```
 
 This will open the MCP Inspector interface where you can interact with your MCP server and debug requests/responses.
 
-## Development
-
-- The frontend is built with Remix
-- The backend uses Koa and implements the Model Context Protocol
-- Each level demonstrates a different aspect of AI agent architecture
-
-For more information on the Model Context Protocol, visit [modelcontextprotocol.io](https://modelcontextprotocol.io).
-
-For more information on the Remix framework, visit [remix.run](https://remix.run).
-
-
-## Development
-
-From your terminal:
-
-```sh
-npm run dev
-```
-
-This starts your app in development mode, rebuilding assets on file changes.
