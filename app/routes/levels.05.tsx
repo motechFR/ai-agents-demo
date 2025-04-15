@@ -8,7 +8,7 @@ import { loadTools, runTool, ToolName, tools } from "server/lib/tools/index";
 export async function action({ request }: { request: Request }) {
     const {message, history} = await request.json();
 
-    const allowedTools: ToolName[] = ['getEthPrice', 'getPortfolioData'];
+    const allowedTools: ToolName[] = ['getPortfolioData', 'sellUSDCForWETH', 'sellWETHForUSDC', 'getTokenQuote'];
 
     const systemPrompt = `
     You are a DeFi expert with access to crypto price data. Your role is to help the user understand the DeFi space, view market data, and make informed decisions about their investments.
@@ -24,6 +24,8 @@ export async function action({ request }: { request: Request }) {
     The users ethereum wallet address is ${process.env.USER_WALLET_ADDRESS}
 
     If returning token balances, only return the token balance, USD value and name + ticker
+
+    If asked about the Ethereum price, use the getQuote method with 1 ETH as the sell amount
     `;
 
     // Simulating tool usage for crypto prices (in a real implementation, this would call external APIs)

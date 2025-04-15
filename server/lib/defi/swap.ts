@@ -7,16 +7,14 @@ import {
     getAddress,
     parseEventLogs,
     parseUnits,
-    TransactionSerializable,
-    parseAbi,
+    TransactionSerializable
 } from "viem";
 import { base } from "viem/chains";
 import { ethClient, getWalletClient, PrivateKey } from "../blockchain/getWalletClient";
 import { ensureAllowance } from "./allowance";
 import { getPool } from "./getPool";
 import { getQuote } from "./getQuote";
-import { MAX_SAFE_INTEGER } from "@uniswap/sdk-core/dist/utils/sqrt";
-import { wrapETH, getWETHToken, WETH_ADDRESS, getWETHBalance } from "./weth";
+import { getWETHBalance, WETH_ADDRESS, wrapETH } from "./weth";
 
 // Refer to https://docs.uniswap.org/contracts/v3/reference/deployments/base-deployments
 const SWAP_ROUTER_ADDRESS = "0x2626664c2603336E57B271c5C0b26F421741e481";
@@ -25,7 +23,7 @@ export type SwapResult = {
     transactionHash: `0x${string}`;
     receipt: {
       status: "success" | "reverted";
-      blockNumber: bigint;
+      blockNumber: number;
       gasUsed: string;
     };
     swapDetails: {
@@ -89,6 +87,12 @@ export async function swap({
     privateKey,
   });
 
+  await ensureAllowance({
+    token: buyToken,
+    spender: SWAP_ROUTER_ADDRESS,
+    privateKey,
+  });
+
   console.log("allowance checked")
 
   const data = encodeFunctionData({
@@ -130,11 +134,17 @@ export async function swap({
     console.log("Swap event not found in transaction logs");
   }
 
-  const decodedLog = parsedLogs[0];
-  const amountIn = decodedLog.args.amount0.toString();
-  const amountOutExecuted = decodedLog.args.amount1.toString();
+// TODO - check logs later
+//   const decodedLog = parsedLogs[0];
+//   const amountIn = decodedLog.args.amount0.toString();
+//   const amountOutExecuted = decodedLog.args.amount1.toString();
 
-  console.log("Swap Event - Amount In:", amountIn, "Amount Out:", amountOutExecuted);
+
+// Not entirely exact, there might be slippage
+  const amountIn = sellAmount;
+  const amountOutExecuted = amountOut.quote;
+
+   console.log("Swap Event - Amount In:", amountIn, "Amount Out:", amountOutExecuted);
 
   console.log("Executed Swap", tx);
 
@@ -142,12 +152,12 @@ export async function swap({
     transactionHash: tx,
     receipt: {
       status: receipt.status,
-      blockNumber: receipt.blockNumber,
+      blockNumber: Number(receipt.blockNumber),
       gasUsed: receipt.gasUsed.toString()
     },
     swapDetails: {
-      amountIn,
-      amountOut: amountOutExecuted,
+      amountIn: amountIn.toString(),
+      amountOut: amountOutExecuted.toString(),
       tokenIn: sellToken.address,
       tokenOut: buyToken.address
     }
@@ -246,8 +256,8 @@ const swapRouterABI = [
 
 // Example usage with WETH - updated to use regular swap function
 // swap({
-//   sellToken: getWETHToken(), // This will auto wrap ETH if needed
-//   buyToken: new Token(base.id, "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", 6), // Base USDC
-//   sellAmount: 0.001,
+//   sellToken: getUSDC(), // Base USDC
+//   buyToken: getWETHToken(), // This will auto wrap ETH if needed
+//   sellAmount: 1,
 //   privateKey: process.env.WALLET_PRIVATE_KEY as string,
 // }).then(console.log).catch(console.error);
