@@ -1,6 +1,8 @@
 import { ZodRawShape } from "zod";
-import { getEthPrice, getEthPriceSchema, getEthPriceToolDefinition } from "./getEthPrice";
+import { getEthPrice, getEthPriceSchema, getEthPriceToolDefinition } from "server/lib/blockchain/getEthPrice";
 import { ChatCompletionTool } from "openai/resources/chat/completions";
+import { getPortfolioData, getPortfolioDataToolDefinition } from "../blockchain/getPortfolioData";
+import { getPortfolioDataSchema } from "../blockchain/getPortfolioData";
 
 type ToolDefinitionWithFunction = {
     tool: ChatCompletionTool;
@@ -14,6 +16,11 @@ export const tools = {
         zodRawSchema: getEthPriceSchema.shape,
         function: getEthPrice,
     },
+    getPortfolioData: {
+        tool: getPortfolioDataToolDefinition,
+        zodRawSchema: getPortfolioDataSchema.shape,
+        function: getPortfolioData,
+    }
 } satisfies Readonly<Record<string, ToolDefinitionWithFunction>>;
 
 export type ToolName = keyof typeof tools;
@@ -24,7 +31,7 @@ export async function runTool({ toolName, args, allowedTools }: { toolName: Tool
     if (!allowedTools || allowedTools.includes(toolName)) {
 
         try {
-            const result = await tool.function(args);
+            const result = await tool.function(args as any);
             return result;
         } catch (error) {
             console.error(error);

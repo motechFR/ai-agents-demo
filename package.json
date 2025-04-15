@@ -13,13 +13,16 @@
     "typecheck": "tsc"
   },
   "dependencies": {
+    "@apollo/client": "^3.13.7",
     "@koa/cors": "^5.0.0",
     "@modelcontextprotocol/sdk": "^1.9.0",
     "@remix-run/node": "^2.16.5",
     "@remix-run/react": "^2.16.5",
     "@remix-run/serve": "^2.16.5",
+    "@uniswap/sdk-core": "^7.7.2",
     "chalk": "^5.4.1",
     "dotenv-cli": "^8.0.0",
+    "gql": "^1.1.2",
     "isbot": "^4.1.0",
     "koa": "^2.16.1",
     "koa-bodyparser": "^4.4.1",
