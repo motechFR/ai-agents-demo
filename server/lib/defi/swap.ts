@@ -8,6 +8,7 @@ import {
     parseEventLogs,
     parseUnits,
     TransactionSerializable,
+    parseAbi,
 } from "viem";
 import { base } from "viem/chains";
 import { ethClient, getWalletClient, PrivateKey } from "../blockchain/getWalletClient";
@@ -15,6 +16,7 @@ import { ensureAllowance } from "./allowance";
 import { getPool } from "./getPool";
 import { getQuote } from "./getQuote";
 import { MAX_SAFE_INTEGER } from "@uniswap/sdk-core/dist/utils/sqrt";
+import { wrapETH, getWETHToken, WETH_ADDRESS, getWETHBalance } from "./weth";
 
 // Refer to https://docs.uniswap.org/contracts/v3/reference/deployments/base-deployments
 const SWAP_ROUTER_ADDRESS = "0x2626664c2603336E57B271c5C0b26F421741e481";
@@ -45,6 +47,30 @@ export async function swap({
   buyToken: Token;
   sellAmount: number;
 } & PrivateKey): Promise<SwapResult> {
+  const walletClient = getWalletClient({ privateKey });
+
+  // Check if selling WETH
+  const isSellingWETH = sellToken.address.toLowerCase() === WETH_ADDRESS.toLowerCase();
+  
+  if (isSellingWETH) {
+    // Check if we have enough WETH
+    const wethBalance = await getWETHBalance(walletClient.account.address);
+    console.log(`Current WETH balance: ${wethBalance}, required: ${sellAmount}`);
+    
+    // If WETH balance is insufficient, wrap more ETH
+    if (wethBalance < sellAmount) {
+      const amountToWrap = sellAmount - wethBalance + (sellAmount * 0.05); // Add 5% buffer
+      console.log(`Insufficient WETH. Wrapping additional ${amountToWrap} ETH to WETH...`);
+      
+      await wrapETH({
+        amount: amountToWrap,
+        privateKey,
+      });
+      
+      console.log(`Additional ETH wrapped. New WETH balance: ${await getWETHBalance(walletClient.account.address)}`);
+    }
+  }
+
   const [pool, amountOut] = await Promise.all([
     getPool(sellToken, buyToken),
     getQuote({
@@ -53,7 +79,7 @@ export async function swap({
       sellAmount: sellAmount,
     }),
   ]);
-  // TODO: this does not seem right. (maybe used getQuote instead?)
+  
   console.log("amountOut", amountOut);
 
   await ensureAllowance({
@@ -65,7 +91,6 @@ export async function swap({
 
   console.log("allowance checked")
 
-  const walletClient = getWalletClient({ privateKey });
   const data = encodeFunctionData({
     abi: swapRouterABI,
     functionName: "exactInputSingle",
@@ -219,11 +244,10 @@ const swapRouterABI = [
   },
 ] as const;
 
-
-
+// Example usage with WETH - updated to use regular swap function
 swap({
-    sellToken: new Token(base.id, "0x4200000000000000000000000000000000000006", 18), // WETH
-    buyToken: new Token(base.id, "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", 6), // Base USDC
-    sellAmount: 0.001,
-    privateKey: process.env.WALLET_PRIVATE_KEY as string,
+  sellToken: getWETHToken(), // This will auto wrap ETH if needed
+  buyToken: new Token(base.id, "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", 6), // Base USDC
+  sellAmount: 0.001,
+  privateKey: process.env.WALLET_PRIVATE_KEY as string,
 }).then(console.log).catch(console.error);
