@@ -8,6 +8,12 @@ graph TD
     end
 
 
+
+    subgraph Secrets Vault
+        Wallet["Wallet"]
+        APICredentials["API Credentials"]
+    end
+
     subgraph Server Layer
         subgraph API Gateway
             APIHandler["API Handler"]
@@ -62,6 +68,8 @@ graph TD
     APIHandler -- "Response" --> Client
     ToolsRegistry -- "Provides selected tools" --> SelectedTools
 
+    Wallet -- "Provides credentials" --> SellWethForUSDC
+    APICredentials -- "Provides access" --> SellWethForUSDC
 
     subgraph Blockchain
         Base["Base Blockchain"]
@@ -89,6 +97,7 @@ graph TD
     classDef repositoryStyle fill:#c6f,stroke:#333,stroke-width:2px;
     classDef decisionStyle fill:#fc6,stroke:#333,stroke-width:2px;
     classDef blockchainStyle fill:#9c6,stroke:#333,stroke-width:2px;
+    classDef secretsStyle fill:#fc6,stroke:#333,stroke-width:2px,stroke-dasharray: 5 5;
 
 
     class Client clientStyle;
@@ -101,4 +110,5 @@ graph TD
     class ToolsRegistry repositoryStyle;
     class ToolCallTest decisionStyle;
     class Base blockchainStyle;
+    class Wallet,APICredentials secretsStyle;
 ```
