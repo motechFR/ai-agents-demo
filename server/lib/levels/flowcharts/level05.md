@@ -39,15 +39,20 @@ graph TD
             %% Elements
             ToolsRegistry["Tools Registry"]
             GetEthPrice["getEthPrice"]
+            SellWethForUSDC["sellWethForUSDC"]
+            SellUSDCForWeth["sellUSDCForWeth"]
+            GetQuote["getQuote"]
             OtherTools["Other Tools..."]
             SelectedTools["Selected Tools"]
 
             %% Flow
-            SelectedTools -- "Requests execution" --> GetEthPrice
-
-            GetEthPrice -- "Returns results" --> MessageHandler
+            SelectedTools -- "Requests execution" --> SellWethForUSDC
+            SellWethForUSDC -- "Returns results" --> MessageHandler
 
             ToolsRegistry -- "Contains" --> GetEthPrice
+            ToolsRegistry -- "Contains" --> SellWethForUSDC
+            ToolsRegistry -- "Contains" --> SellUSDCForWeth
+            ToolsRegistry -- "Contains" --> GetQuote
             ToolsRegistry -- "Contains" --> OtherTools
         end
     end
@@ -57,10 +62,21 @@ graph TD
     APIHandler -- "Response" --> Client
     ToolsRegistry -- "Provides selected tools" --> SelectedTools
 
+
+    subgraph Blockchain
+        Base["Base Blockchain"]
+    end
+
     subgraph External Services
         CoinAPI["Cryptocurrency API"]
+        Alchemy["Alchemy"]
+        
         GetEthPrice -- "Fetches price" --> CoinAPI
-        CoinAPI -- "Returns price" --> GetEthPrice
+        
+        SellWethForUSDC -- "Executes swap" --> Alchemy
+        Alchemy -- "Interacts with" --> Base
+        Base -- "Returns data" --> Alchemy
+        Alchemy -- "Returns result" --> SellWethForUSDC
     end
 
     classDef clientStyle fill:#f96,stroke:#333,stroke-width:2px;
@@ -72,15 +88,17 @@ graph TD
     classDef modelStyle fill:#c9f,stroke:#333,stroke-width:2px;
     classDef repositoryStyle fill:#c6f,stroke:#333,stroke-width:2px;
     classDef decisionStyle fill:#fc6,stroke:#333,stroke-width:2px;
+    classDef blockchainStyle fill:#9c6,stroke:#333,stroke-width:2px;
 
 
     class Client clientStyle;
     class APIHandler serverStyle;
     class MessageHandler,SystemPrompt,LLMClient,SelectedTools agentStyle;
-    class GetEthPrice,OtherTools toolStyle;
+    class GetEthPrice,OtherTools,SellWethForUSDC,SellUSDCForWeth,GetQuote toolStyle;
     class OpenAI modelStyle;
-    class CoinAPI externalStyle;
+    class CoinAPI,Alchemy externalStyle;
     class ConversationHistory historyStyle;
     class ToolsRegistry repositoryStyle;
     class ToolCallTest decisionStyle;
+    class Base blockchainStyle;
 ```
