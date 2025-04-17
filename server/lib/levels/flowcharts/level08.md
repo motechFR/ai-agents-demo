@@ -92,15 +92,15 @@ graph TD
             MicrosoftWord["Microsoft Word"]
             GoogleDrive["Google Drive"]
             
-            UIAgent -- "Knowledge Base" --> Notion
-            UIAgent -- "Team Communication" --> Slack
-            UIAgent -- "Document Creation" --> MicrosoftWord
-            UIAgent -- "Document Storage" --> GoogleDrive
+            DataAccessLayer -- "Store Knowledge Base" --> Notion
+            DataAccessLayer -- "Store Communication" --> Slack
+            DataAccessLayer -- "Store Documents" --> MicrosoftWord
+            DataAccessLayer -- "Store Files" --> GoogleDrive
             
-            Notion -- "Data" --> UIAgent
-            Slack -- "Messages" --> UIAgent
-            MicrosoftWord -- "Documents" --> UIAgent
-            GoogleDrive -- "Files" --> UIAgent
+            Notion -- "Retrieve Data" --> DataAccessLayer
+            Slack -- "Retrieve Messages" --> DataAccessLayer
+            MicrosoftWord -- "Retrieve Documents" --> DataAccessLayer
+            GoogleDrive -- "Retrieve Files" --> DataAccessLayer
         end
     end
 
