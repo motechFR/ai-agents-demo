@@ -13,6 +13,7 @@ graph TD
         Client -- "Renders" --> MicroUI
         MicroUI -- "Based on" --> ConversationHistory
         APIClient -- "Forwards requests" --> Server
+        APIClient -- "Sends Conversation ID" --> ConversationHistoryEndpoint
     end
 
     subgraph Server Layer
@@ -20,10 +21,14 @@ graph TD
         APIHandler["API Handler"]
         UIAgent["User Interface Agent"]
         SystemPrompt["System Prompt"]
+        ConversationHistoryEndpoint["Conversation History Endpoint"]
         
         Server -- "Routes to" --> APIHandler
         APIHandler -- "Forwards request" --> UIAgent
         UIAgent -- "Reads" --> SystemPrompt
+        ConversationHistoryEndpoint -- "Conversation Data" --> ConversationHistory
+        ConversationHistoryEndpoint -- "Forwards Request" --> APIHandler
+        UIAgent -- "Updates" --> ConversationHistoryEndpoint
     end
 
     subgraph Autonomous Agent System
@@ -65,34 +70,38 @@ graph TD
         Blockchain["Multiple Blockchains"]
     end
 
-    subgraph Database Layer
-        DataAccessLayer["Data Access Layer"]
-        PostgreSQL[("PostgreSQL")]
-        Pinecone[("Pinecone Vector DB")]
-        MongoDB[("MongoDB")]
-        Redis[("Redis Cache")]
-        
-        DataAccessLayer -- "SQL Queries" --> PostgreSQL
-        DataAccessLayer -- "Vector Embeddings" --> Pinecone
-        DataAccessLayer -- "Document Operations" --> MongoDB
-        DataAccessLayer -- "Cache Operations" --> Redis
-    end
+    subgraph Data Layer
 
-    subgraph Workplace
-        Notion["Notion"]
-        Slack["Slack"]
-        MicrosoftWord["Microsoft Word"]
-        GoogleDrive["Google Drive"]
-        
-        UIAgent -- "Knowledge Base" --> Notion
-        UIAgent -- "Team Communication" --> Slack
-        UIAgent -- "Document Creation" --> MicrosoftWord
-        UIAgent -- "Document Storage" --> GoogleDrive
-        
-        Notion -- "Data" --> UIAgent
-        Slack -- "Messages" --> UIAgent
-        MicrosoftWord -- "Documents" --> UIAgent
-        GoogleDrive -- "Files" --> UIAgent
+        subgraph Database Layer
+            DataAccessLayer["Data Access Layer"]
+            PostgreSQL[("PostgreSQL")]
+            Pinecone[("Pinecone Vector DB")]
+            MongoDB[("MongoDB")]
+            Redis[("Redis Cache")]
+            
+            DataAccessLayer -- "SQL Queries" --> PostgreSQL
+            DataAccessLayer -- "Vector Embeddings" --> Pinecone
+            DataAccessLayer -- "Document Operations" --> MongoDB
+            DataAccessLayer -- "Cache Operations" --> Redis
+            ConversationHistoryEndpoint -- "Stores Conversation" --> DataAccessLayer
+        end
+
+        subgraph Workplace
+            Notion["Notion"]
+            Slack["Slack"]
+            MicrosoftWord["Microsoft Word"]
+            GoogleDrive["Google Drive"]
+            
+            UIAgent -- "Knowledge Base" --> Notion
+            UIAgent -- "Team Communication" --> Slack
+            UIAgent -- "Document Creation" --> MicrosoftWord
+            UIAgent -- "Document Storage" --> GoogleDrive
+            
+            Notion -- "Data" --> UIAgent
+            Slack -- "Messages" --> UIAgent
+            MicrosoftWord -- "Documents" --> UIAgent
+            GoogleDrive -- "Files" --> UIAgent
+        end
     end
 
     Client -- "Request" --> APIClient
@@ -137,7 +146,7 @@ graph TD
     classDef workplaceStyle fill:#c9f,stroke:#333,stroke-width:2px;
 
     class Client,APIClient,MicroUI clientStyle;
-    class Server,APIHandler,UIAgent,SystemPrompt serverStyle;
+    class Server,APIHandler,UIAgent,SystemPrompt,ConversationHistoryEndpoint serverStyle;
     class OpenAI,CryptoAPIs externalStyle;
     class ConversationHistory,ConversationId historyStyle;
     class PortfolioAgent,RiskAgent,MarketAgent,TradeAgent agentStyle;
@@ -148,4 +157,3 @@ graph TD
     class PostgreSQL,Pinecone,MongoDB,Redis databaseStyle;
     class DataAccessLayer dataLayerStyle;
     class Notion,Slack,MicrosoftWord,GoogleDrive workplaceStyle; 
-```
