@@ -36,6 +36,7 @@ graph TD
         RiskAgent["Risk Management Agent"]
         MarketAgent["Market Analysis Agent"]
         TradeAgent["Trade Execution Agent"]
+        SecurityAgent["Security Agent"]
         
         UIAgent -- "Portfolio request" --> PortfolioAgent
         PortfolioAgent -- "Portfolio info" --> UIAgent
@@ -96,6 +97,45 @@ graph TD
         end
     end
 
+    subgraph Workflows
+        subgraph NewOpportunitiesWorkflow
+            Step1["Step 1: Track new token listings on base"]
+            Step2["Step 2: Pull down smart contracts"]
+            Step3["Step 3: Analyse against security parameters"]
+            Step4["Step 4: Discard or add to watch list"]
+            Step5["Step 5: Monitor evolutions in volume and price"]
+            Step6["Step 6: Surface investment decision"]
+            
+            Step1 --> Step2
+            Step2 --> Step3
+            Step3 --> Step4
+            Step4 --> Step5
+            Step5 --> Step6
+            
+            Step1 -- "Uses" --> MarketAgent
+            Step2 -- "Uses" --> DataAccessLayer
+            Step3 -- "Uses" --> SecurityAgent
+            Step4 -- "Uses" --> DataAccessLayer
+            Step5 -- "Uses" --> StatisticalModel["Statistical Model"]
+            Step6 -- "Uses" --> TradeAgent
+        end
+
+        %% subgraph PortfolioManagementWorkflow
+        %%     Step1["Step 1: Review portfolio"]
+        %%     Step2["Step 2: Analyse risk"]
+        %%     Step3["Step 3: Review market"]
+        %%     Step4["Step 4: Review trades"]
+        %%     Step5["Step 5: Take profits and stop losses"]
+
+        %%     Step1 -- "Uses" --> PortfolioAgent
+        %%     Step2 -- "Uses" --> RiskAgent
+        %%     Step3 -- "Uses" --> MarketAgent
+        %%     Step4 -- "Uses" --> DataAccessLayer
+        %%     Step5 -- "Uses" --> TradeAgent
+        %% end
+        
+    end
+
     Client -- "Request" --> APIClient
     
     MarketAgent -- "Market data" --> CryptoAPIs
@@ -116,6 +156,8 @@ graph TD
     MarketAgent -- "Data Access" --> DataAccessLayer
     TradeAgent -- "Data Access" --> DataAccessLayer
     UIAgent -- "Data Access" --> DataAccessLayer
+    SecurityAgent -- "Data Access" --> DataAccessLayer
+    StatisticalModel -- "Data Access" --> DataAccessLayer
 
     classDef clientStyle fill:#f96,stroke:#333,stroke-width:2px;
     classDef serverStyle fill:#333,stroke:#ccc,stroke-width:2px,color:#fff;
@@ -129,15 +171,19 @@ graph TD
     classDef databaseStyle fill:#6c9,stroke:#333,stroke-width:2px;
     classDef dataLayerStyle fill:#69c,stroke:#333,stroke-width:2px;
     classDef workplaceStyle fill:#c9f,stroke:#333,stroke-width:2px;
+    classDef workflowStyle fill:#f9c,stroke:#333,stroke-width:2px;
+    classDef modelStyle fill:#9fc,stroke:#333,stroke-width:2px;
 
     class Client,APIClient,MicroUI clientStyle;
     class APIHandler,UIAgent,SystemPrompt,ConversationHistoryEndpoint serverStyle;
     class ConversationHistory,ConversationId historyStyle;
-    class PortfolioAgent,RiskAgent,MarketAgent,TradeAgent agentStyle;
+    class PortfolioAgent,RiskAgent,MarketAgent,TradeAgent,SecurityAgent agentStyle;
     class PortfolioData,MarketData dataStyle;
     class WalletService walletStyle;
     class Blockchain blockchainStyle;
     class DEXs,CEXs exchangeStyle;
     class PostgreSQL,Pinecone,MongoDB,Redis databaseStyle;
     class DataAccessLayer dataLayerStyle;
-    class Notion,Slack,MicrosoftWord,GoogleDrive workplaceStyle; 
+    class Notion,Slack,MicrosoftWord,GoogleDrive workplaceStyle;
+    class Step1,Step2,Step3,Step4,Step5,Step6 workflowStyle;
+    class StatisticalModel modelStyle; 
