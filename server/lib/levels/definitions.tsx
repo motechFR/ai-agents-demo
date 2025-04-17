@@ -35,19 +35,27 @@ export const level05: DemoLevel = {
     mermaidJsFlowchart: undefined,
 }
 
-export const level06: DemoLevel = {
-    level: 6,
-    title: 'Agent with Persistent Data and Market Coverage',
-    description: 'Backend agent indexes tokens and maintains real-time market view',
+export const level9000: DemoLevel = {
+    level: 9000,
+    title: 'Agentic Business Software',
+    description: 'Workflows, human approval, multi-agent systems, and more',
     mermaidJsFlowchart: undefined,
 }
 
-export const level07: DemoLevel = {
-    level: 7,
-    title: 'Multi-Agent System with Security Checks',
-    description: 'Multiple agents collaborate to ensure safety before trading',
-    mermaidJsFlowchart: undefined,
-}
+// TODO - Complete these levels
+// export const level06: DemoLevel = {
+//     level: 6,
+//     title: 'Agent with Persistent Data and Market Coverage',
+//     description: 'Backend agent indexes tokens and maintains real-time market view',
+//     mermaidJsFlowchart: undefined,
+// }
+
+// export const level07: DemoLevel = {
+//     level: 7,
+//     title: 'Multi-Agent System with Security Checks',
+//     description: 'Multiple agents collaborate to ensure safety before trading',
+//     mermaidJsFlowchart: undefined,
+// }
 
 export const level08: DemoLevel = {
     level: 8,
@@ -62,6 +70,7 @@ export const allDemoLevels: DemoLevel[] = [
     level03,
     level04,
     level05,
+    level08,
     // Readd these later when we are finished
     // level06,
     // level07,

@@ -8,12 +8,9 @@ export async function action({ request }: { request: Request }) {
     const {message, history} = await request.json();
 
     const systemPrompt = `
-    You are the user interface agent in a fully agentic system with portfolio and risk management capabilities. 
-    Your role is to help the user understand their portfolio, make informed decisions, and interact with the agentic system.
+    You are a DeFi expert with persistent data and market coverage. Your role is to help the user understand the DeFi space, access comprehensive market data, and make informed decisions.
 
-    The system includes specialized autonomous agents for portfolio management, risk assessment, market analysis, and trade execution.
-    
-    All agents operate under strict risk constraints and portfolio management rules.
+    You have a backend agent that continuously indexes tokens and maintains a real-time view of the market.
 
     Users remain responsible for their own investments and trades.
 
@@ -22,31 +19,24 @@ export async function action({ request }: { request: Request }) {
     Refuse to discuss topics that are not somewhat related to cryptocurrency or blockchain.
     `;
 
-    // Simulating fully agentic system
+    // Simulating backend agent with market data
     const userMessage = message as string;
     let enhancedPrompt = userMessage;
     
-    // Portfolio management agent
-    if (userMessage.toLowerCase().includes('portfolio') || userMessage.toLowerCase().includes('holdings') || 
-        userMessage.toLowerCase().includes('balance') || userMessage.toLowerCase().includes('assets')) {
-        enhancedPrompt += "\n\nTool Response: [Portfolio Management Agent]\nCurrent Portfolio:\n- BTC: 0.5 BTC ($31,622.89) - 42.3% of portfolio\n- ETH: 3.2 ETH ($9,844.64) - 13.2% of portfolio\n- SOL: 65 SOL ($9,287.85) - 12.4% of portfolio\n- USDC: 24,000 USDC ($24,000) - 32.1% of portfolio\nTotal portfolio value: $74,755.38\nPortfolio performance: +12.8% (30d)\nRisk exposure: MODERATE\nDiversification score: 7.5/10\nRecommendation: Consider rebalancing to reduce BTC exposure";
+    if (userMessage.toLowerCase().includes('market') || userMessage.toLowerCase().includes('overview')) {
+        enhancedPrompt += "\n\nTool Response: [Market Coverage Agent]\nTop gainers (24h):\n1. PEPE: +18.7%\n2. SHIB: +12.3%\n3. ARB: +9.5%\n\nTop losers (24h):\n1. DOGE: -5.2%\n2. LINK: -3.8%\n3. ADA: -2.1%\n\nMarket sentiment: Bullish (65/100)\nTotal market cap: $2.47T (+1.2% 24h)\nData as of " + new Date().toISOString();
     }
-    
-    // Risk management agent
-    if (userMessage.toLowerCase().includes('risk') || userMessage.toLowerCase().includes('exposure') || userMessage.toLowerCase().includes('safety')) {
-        enhancedPrompt += "\n\nTool Response: [Risk Management Agent]\nRisk Analysis:\n- Market volatility: MEDIUM\n- Concentration risk: HIGH (BTC > 40%)\n- Correlation risk: MEDIUM\n- Liquidity risk: LOW\nRisk constraints:\n- Max allocation per asset: 35% (VIOLATED: BTC 42.3%)\n- Min stablecoin reserve: 15% (MET: USDC 32.1%)\n- Max leverage: 0% (MET: No leverage)\nRecommendation: Reduce BTC position by 7-10% to meet risk constraints";
+
+    if (userMessage.toLowerCase().includes('token') || userMessage.toLowerCase().includes('coin')) {
+        // Use regex to extract token symbol if present
+        const tokenMatch = userMessage.match(/\b(BTC|ETH|SOL|ADA|DOT|AVAX|PEPE|SHIB|ARB|DOGE|LINK)\b/i);
+        const token = tokenMatch ? tokenMatch[0].toUpperCase() : "BTC";
+        
+        enhancedPrompt += `\n\nTool Response: [Token Indexer Agent]\nToken: ${token}\nPrice: ${Math.random() * 100 > 50 ? '+' : '-'}${(Math.random() * 10).toFixed(2)}%\nMarket Cap: $${(Math.random() * 100).toFixed(2)}B\nVolume (24h): $${(Math.random() * 5).toFixed(2)}B\nCirculating Supply: ${(Math.random() * 100).toFixed(2)}M\nSocial Sentiment: ${Math.random() * 100 > 50 ? 'Positive' : 'Neutral'}\nDeveloper Activity: ${Math.random() * 100 > 70 ? 'High' : 'Medium'}\nData as of ${new Date().toISOString()}`;
     }
-    
-    // Market analysis agent
-    if (userMessage.toLowerCase().includes('market') || userMessage.toLowerCase().includes('analysis') || userMessage.toLowerCase().includes('trend')) {
-        enhancedPrompt += "\n\nTool Response: [Market Analysis Agent]\nMarket Analysis:\n- BTC: BULLISH (8/10) - Breaking key resistance, strong on-chain metrics\n- ETH: NEUTRAL (5/10) - Consolidating, upcoming protocol changes\n- SOL: BULLISH (7/10) - Ecosystem growth accelerating, increasing adoption\n- Overall market: Cautiously bullish\nKey metrics:\n- Fear & Greed Index: 72 (Greed)\n- BTC Dominance: 51.2% (Increasing)\n- DeFi TVL: $42.7B (Stable)\nRecommendation: Consider taking partial profits on BTC position";
-    }
-    
-    // Trade execution agent
-    if (userMessage.toLowerCase().includes('trade') || userMessage.toLowerCase().includes('buy') || 
-        userMessage.toLowerCase().includes('sell') || userMessage.toLowerCase().includes('swap') || 
-        userMessage.toLowerCase().includes('rebalance')) {
-        enhancedPrompt += "\n\nTool Response: [Trade Execution Agent]\nAnalyzing request...\nWallet connected: 0x7a2...f3b9\nRecommended execution strategy: TWAP (Time-Weighted Average Price)\nOptimal execution path: 1. BTC → USDC (Binance) 2. USDC → SOL (Raydium)\nEstimated slippage: 0.3%\nEstimated fees: $14.76\nBest execution time: Within next 48 hours\nRisk check: PASSED (Trade reduces portfolio risk)\nRecommendation: Execute 0.05 BTC to USDC now, remaining 0.05 BTC in 24 hours";
+
+    if (userMessage.toLowerCase().includes('news') || userMessage.toLowerCase().includes('latest')) {
+        enhancedPrompt += "\n\nTool Response: [News Aggregator Agent]\nLatest headlines:\n1. Bitcoin ETFs see $500M inflows as price stabilizes\n2. Ethereum set for major protocol upgrade next month\n3. Solana NFT volumes surpass Ethereum for third straight week\n4. Regulatory concerns growing over stablecoin market\n5. Major exchange expands institutional offerings\nData as of " + new Date().toISOString();
     }
 
     const chatCompletion = await requestChatCompletion({
@@ -76,6 +66,7 @@ export async function loader() {
     return {
         content: (content as any as {markdown: string}).markdown,
     };
+
 }
 
 export default function Level08() {
@@ -83,17 +74,17 @@ export default function Level08() {
 
     const initialMessages: Message[] = [{
         id: '1',
-        content: 'I think my portfolio is too heavily weighted toward Bitcoin. Can you help me rebalance?',
+        content: 'Give me a market overview and the latest crypto news.',
         sender: 'user',
         timestamp: new Date(Date.now() - 3000),
     }, {
         id: uuidv4(),
-        content: "You're right to be concerned about your portfolio concentration. After analyzing your holdings, I can see that Bitcoin currently makes up 42.3% of your portfolio, which exceeds our recommended maximum allocation of 35% per asset.\n\n**Current Portfolio:**\n- BTC: 0.5 BTC ($31,622.89) - 42.3%\n- ETH: 3.2 ETH ($9,844.64) - 13.2%\n- SOL: 65 SOL ($9,287.85) - 12.4%\n- USDC: 24,000 USDC ($24,000) - 32.1%\n\n**Risk Analysis:**\n- Your BTC position presents a concentration risk\n- Market analysis indicates BTC is bullish (8/10), but taking partial profits would be prudent\n\n**Rebalancing Recommendation:**\nSell 0.1 BTC (~$6,324) to reduce your BTC allocation to approximately 34%, which would align with our risk constraints.\n\n**Execution Strategy:**\n- Use a TWAP approach (Time-Weighted Average Price) to minimize slippage\n- Execute 0.05 BTC to USDC now, and the remaining 0.05 BTC in 24 hours\n- Estimated fees: $14.76\n- Slippage: ~0.3%\n\nWould you like to proceed with this rebalancing strategy?",
+        content: "Here's your market overview:\n\n**Top Gainers (24h)**:\n1. PEPE: +18.7%\n2. SHIB: +12.3%\n3. ARB: +9.5%\n\n**Top Losers (24h)**:\n1. DOGE: -5.2%\n2. LINK: -3.8%\n3. ADA: -2.1%\n\nThe overall market sentiment is currently bullish, with a sentiment score of 65/100. The total crypto market capitalization stands at $2.47 trillion, up 1.2% in the last 24 hours.\n\n**Latest Headlines**:\n1. Bitcoin ETFs have seen $500M in inflows as the price stabilizes\n2. Ethereum is preparing for a major protocol upgrade next month\n3. Solana NFT volumes have surpassed Ethereum for the third straight week\n4. There are growing regulatory concerns over the stablecoin market\n5. A major exchange is expanding its institutional offerings\n\nWould you like more detailed information on any specific token or news item?",
         sender: 'assistant',
         timestamp: new Date(),
     }];
 
-    const suggestedMessages = ['Yes, execute the rebalancing strategy', 'What should I do with the USDC?', 'Show me market analysis for SOL'];
+    const suggestedMessages = ['Tell me more about PEPE', 'What\'s the social sentiment for ETH?', 'Any news about regulation?'];
 
     return (
         <LevelLayout 
@@ -101,6 +92,7 @@ export default function Level08() {
             mermaidJsChart={content}
             initialMessages={initialMessages}
             suggestedMessages={suggestedMessages}
+            enabledModes={['mermaid']}
         />
     );
 } 

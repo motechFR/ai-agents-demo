@@ -12,6 +12,13 @@ The tutorial is structured in progressive levels:
 4. **Agent with Context and Read-Only Tools**: Agent can query live crypto prices and view historical trends
 5. **Agent with Context, Write Access, and Wallet Integration**: Agent can execute trades and interact with blockchain via wallet
 
+
+## Companion Guide
+
+For a guided walkthrough of using this demo and understanding each level, check out the companion guide: [AI Agents: From 0 to 1](https://melboudi.substack.com/p/ai-agents-from-0-to-1)
+
+
+
 (Additional levels will be added later)
 
 ## Getting Started
