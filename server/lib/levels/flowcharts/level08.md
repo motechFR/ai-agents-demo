@@ -12,23 +12,23 @@ graph TD
         ConversationHistory -- "Reads" --> Client
         Client -- "Renders" --> MicroUI
         MicroUI -- "Based on" --> ConversationHistory
-        APIClient -- "Forwards requests" --> Server
-        APIClient -- "Sends Conversation ID" --> ConversationHistoryEndpoint
     end
 
     subgraph Server Layer
-        Server["Server"]
         APIHandler["API Handler"]
         UIAgent["User Interface Agent"]
-        SystemPrompt["System Prompt"]
-        ConversationHistoryEndpoint["Conversation History Endpoint"]
+
         
-        Server -- "Routes to" --> APIHandler
         APIHandler -- "Forwards request" --> UIAgent
-        UIAgent -- "Reads" --> SystemPrompt
+
+        ConversationHistoryEndpoint["Conversation History Endpoint"]
         ConversationHistoryEndpoint -- "Conversation Data" --> ConversationHistory
         ConversationHistoryEndpoint -- "Forwards Request" --> APIHandler
         UIAgent -- "Updates" --> ConversationHistoryEndpoint
+        APIHandler -- "Response" --> APIClient
+
+        APIClient -- "Forwards requests" --> APIHandler
+        APIClient -- "Sends Conversation ID" --> ConversationHistoryEndpoint
     end
 
     subgraph Autonomous Agent System
@@ -36,9 +36,6 @@ graph TD
         RiskAgent["Risk Management Agent"]
         MarketAgent["Market Analysis Agent"]
         TradeAgent["Trade Execution Agent"]
-        
-        PortfolioData[("Portfolio Data")]
-        MarketData[("Market Data")]
         
         UIAgent -- "Portfolio request" --> PortfolioAgent
         PortfolioAgent -- "Portfolio info" --> UIAgent
@@ -52,17 +49,12 @@ graph TD
         UIAgent -- "Trade request" --> TradeAgent
         TradeAgent -- "Execution report" --> UIAgent
         
-        PortfolioAgent -- "Read/Update" --> PortfolioData
-        RiskAgent -- "Enforce constraints" --> PortfolioData
-        MarketAgent -- "Read/Update" --> MarketData
-        
         PortfolioAgent <--> RiskAgent
         PortfolioAgent <--> MarketAgent
         RiskAgent <--> TradeAgent
     end
 
     subgraph External Services
-        OpenAI
         CryptoAPIs["Crypto Data APIs"]
         DEXs["Decentralized Exchanges"]
         CEXs["Centralized Exchanges"]
@@ -105,9 +97,6 @@ graph TD
     end
 
     Client -- "Request" --> APIClient
-    APIClient -- "API Request" --> Server
-    UIAgent -- "API Request (message + system prompt)" --> OpenAI
-    OpenAI -- "API Response" --> UIAgent
     
     MarketAgent -- "Market data" --> CryptoAPIs
     CryptoAPIs -- "Price/Volume data" --> MarketAgent
@@ -121,10 +110,6 @@ graph TD
     WalletService -- "Execute transaction" --> Blockchain
     Blockchain -- "Confirmation" --> WalletService
     WalletService -- "Transaction result" --> TradeAgent
-    
-    APIHandler -- "Response" --> Server
-    Server -- "Response" --> APIClient
-    APIClient -- "Response" --> Client
 
     PortfolioAgent -- "Data Access" --> DataAccessLayer
     RiskAgent -- "Data Access" --> DataAccessLayer
@@ -146,8 +131,7 @@ graph TD
     classDef workplaceStyle fill:#c9f,stroke:#333,stroke-width:2px;
 
     class Client,APIClient,MicroUI clientStyle;
-    class Server,APIHandler,UIAgent,SystemPrompt,ConversationHistoryEndpoint serverStyle;
-    class OpenAI,CryptoAPIs externalStyle;
+    class APIHandler,UIAgent,SystemPrompt,ConversationHistoryEndpoint serverStyle;
     class ConversationHistory,ConversationId historyStyle;
     class PortfolioAgent,RiskAgent,MarketAgent,TradeAgent agentStyle;
     class PortfolioData,MarketData dataStyle;
