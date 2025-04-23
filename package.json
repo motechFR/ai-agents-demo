@@ -11,7 +11,8 @@
     "server:dev": "npx dotenv -e .env -- npx tsx --watch ./server/main.ts",
     "script": "npx dotenv -e .env -- npx tsx",
     "dev:all": "concurrently \"npm run server:dev\" \"npm run dev\"",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "keygen": "npm run script scripts/keygen.ts"
   },
   "dependencies": {
     "@apollo/client": "^3.13.7",

@@ -59,6 +59,12 @@ For more information on the Remix framework, visit [remix.run](https://remix.run
      - Alchemy API key
      - Wallet private key (use the keygen script in scripts/keygen.ts to generate)
 
+To get the wallet private key run
+
+```sh
+npm run keygen
+```
+
 ### Running the Application
 
 Start both the Remix frontend and the MCP server:
