@@ -17,10 +17,6 @@ The tutorial is structured in progressive levels:
 
 For a guided walkthrough of using this demo and understanding each level, check out the companion guide: [AI Agents: From 0 to 1](https://melboudi.substack.com/p/ai-agents-from-0-to-1)
 
-
-
-(Additional levels will be added later)
-
 ## Getting Started
 
 ## Development
@@ -28,8 +24,6 @@ For a guided walkthrough of using this demo and understanding each level, check 
 - The frontend is built with Remix
 - The backend uses Koa and implements the Model Context Protocol
 - Each level demonstrates a different aspect of AI agent architecture
-
-For more information on the Model Context Protocol, visit [modelcontextprotocol.io](https://modelcontextprotocol.io).
 
 For more information on the Remix framework, visit [remix.run](https://remix.run).
 
@@ -78,6 +72,6 @@ npm run dev:all
 
 You can test the Model Context Protocol server using the [MCP Inspector](https://github.com/modelcontextprotocol/inspector):
 
-
 This will open the MCP Inspector interface where you can interact with your MCP server and debug requests/responses.
 
+For more information on the Model Context Protocol, visit [modelcontextprotocol.io](https://modelcontextprotocol.io).
