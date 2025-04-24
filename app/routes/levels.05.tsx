@@ -40,8 +40,7 @@ export async function action({ request }: { request: Request }) {
             role: 'user',
             content: enhancedPrompt,
         }],
-        tools: loadTools(allowedTools),
-        parallel_tool_calls: true,
+        tools: loadTools(allowedTools)
     });
 
     const requiredToolCalls = chatCompletion.choices[0].message.tool_calls;
@@ -76,7 +75,7 @@ export async function action({ request }: { request: Request }) {
                 content: m.content,
             })),
             { role: 'user', content: userMessage },
-            { role: 'assistant', content: toolOutputsMessage },
+            { role: 'user', content: toolOutputsMessage },
         ],
         // This time we don't need any tools
         tools: undefined

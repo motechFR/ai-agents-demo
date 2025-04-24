@@ -32,7 +32,15 @@ function getLLMModel(): keyof typeof LLMModels {
 }
 
 
-export async function requestChatCompletion(params: Omit<OpenAI.Chat.ChatCompletionCreateParamsNonStreaming, 'model'>) {    
+export async function requestChatCompletion(params: Omit<OpenAI.Chat.ChatCompletionCreateParamsNonStreaming, 'model'>) {
+
+
+  for (const tool of params.tools ?? []) {
+    // This key causes Gemini to fail
+    delete tool.function.parameters!.$schema;
+  }
+
+
   const completion = await llmClient.chat.completions.create({
     ...params,
     model: getLLMModel(),

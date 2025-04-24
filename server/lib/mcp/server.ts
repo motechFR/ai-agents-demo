@@ -16,7 +16,6 @@ export function loadMcpServer() {
         const tool = tools[toolName];
         const functionDefinition = tool.tool.function;
         mcpServer.tool(toolName, functionDefinition.description!, tool.zodRawSchema, async (payload: any) => {
-            console.log('payload', payload);
             const result = await tool.function(payload);
 
             const response: CallToolResult = {

@@ -3,6 +3,7 @@ import { formatUnits } from 'viem';
 import { z } from 'zod';
 import { Blockchain } from './constants';
 import { base } from 'viem/chains';
+import { getEthPrice } from './getEthPrice';
 
 export const getPortfolioDataSchema = z.object({
   address: z.string().describe('The blockchain address to fetch portfolio data for'),
@@ -118,8 +119,22 @@ export async function getPortfolioData({ address }: FunctionParameters): Promise
       const balance = parseFloat(formatUnits(BigInt(token.tokenBalance), decimals)); // Use viem or similar to parse hex
 
       // Find USD price
+      let price: number;
+      const zeroAddress = '0x0000000000000000000000000000000000000000';
+      const isNativeEth = token.tokenAddress === null || token.tokenAddress === zeroAddress;
+      
       const usdPriceData = token.tokenPrices.find(p => p.currency === 'usd');
-      const price = usdPriceData ? parseFloat(usdPriceData.value) : 0;
+
+      if (isNativeEth && (!usdPriceData || token.tokenPrices.length === 0)) {
+        // Handle native ETH price potentially missing from tokenPrices
+        const ethPriceData = await getEthPrice();
+        price = ethPriceData.amount;
+      } else if (usdPriceData) {
+        price = parseFloat(usdPriceData.value);
+      } else {
+        price = 0; // Default to 0 if price data is missing for non-native tokens
+      }
+
       const balanceUSD = balance * price;
 
       // Only show token balances with at least $0.50 in value
@@ -130,10 +145,10 @@ export async function getPortfolioData({ address }: FunctionParameters): Promise
 
       let tokenSymbol: string;
       let tokenName: string;
-      const zeroAddress = '0x0000000000000000000000000000000000000000';
+      
 
       // Check for native token (null or zero address)
-      if (token.tokenAddress === null || token.tokenAddress === zeroAddress) {
+      if (isNativeEth) { // Use the calculated boolean
         tokenSymbol = 'ETH';
         tokenName = 'Ethereum';
       } else {

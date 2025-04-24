@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 
 export const formatMessage = (content: string) => {
+
     // Split by newlines and wrap each line in a div
-    const lines = content.split('\n');
-    return lines.map((line, index) => {
+    const lines = content?.split('\n');
+    return lines?.map((line, index) => {
       // Replace **text** with <strong>text</strong>
       const formattedLine = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
       return (
