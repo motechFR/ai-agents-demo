@@ -1,10 +1,6 @@
 import { zodFunction } from 'openai/helpers/zod';
 import { z } from 'zod';
-
-import { gql } from '@apollo/client/core/index.js';
-
-import { BASE_WETH_ADDRESS, Blockchain } from './constants';
-import { zapperGraphqlClient } from './zapperGraphqlClient';
+import { BASE_WETH_ADDRESS } from './constants';
 
 export const getEthPriceSchema = z.object({}).describe('Get the price of Ethereum');
 
@@ -16,82 +12,65 @@ export const getEthPriceToolDefinition = zodFunction({
 
 type FunctionParameters = z.infer<typeof getEthPriceSchema>;
 
-
-// Define the GraphQL query
-const PORTFOLIO_QUERY = gql`
-  query TokenPriceData(
-  $address: Address!
-  $chainId: Int!
-) {
-  fungibleTokenV2(address: $address, chainId: $chainId) {
-    # Basic token information
-    address
-    symbol
-    name
-    decimals
-    imageUrlV2
-
-    # Market data and pricing information
-    priceData {
-      marketCap
-      price
-      priceChange5m
-      priceChange1h
-      priceChange24h
-      volume24h
-      totalGasTokenLiquidity
-      totalLiquidity
-    }
-  }
-}
-`;
-
-
-// Define the response type structure
-type TokenPriceDataFromZapper = {
-  fungibleTokenV2: {
-    address: string;
+// Define the response type structure from Alchemy Price API
+type AlchemyPriceApiResponse = {
+  data: Array<{
     symbol: string;
-    name: string;
-    decimals: number;
-    imageUrlV2: string;
-    priceData: {
-      marketCap: number;
-      price: number;
-      priceChange5m: number;
-      priceChange1h: number;
-      priceChange24h: number;
-      volume24h: number;
-      totalGasTokenLiquidity: number;
-      totalLiquidity: number;
-    }
-  }
+    prices: Array<{
+      currency: string;
+      value: string;
+      lastUpdatedAt: string;
+    }>;
+  }>;
 };
 
+// TODO: Move API Key to environment variables
+const ALCHEMY_API_KEY = process.env.ALCHEMY_API_KEY || 'YOUR_ALCHEMY_API_KEY'; // Replace with actual key or env var loading
+const ALCHEMY_PRICE_API_BASE_URL = `https://api.g.alchemy.com/prices/v1/${ALCHEMY_API_KEY}/tokens/by-symbol?symbols[0]=ETH`;
+
 /**
- * Fetches portfolio data for a blockchain address
- * @param address The blockchain address to fetch portfolio data for
- * @returns Portfolio data including token balances and USD values
+ * Fetches the current price of Ethereum (via WETH on Base) using Alchemy Price API
+ * @returns The price of ETH in USD
  */
 export async function getEthPrice({}: FunctionParameters = {}): Promise<{amount: number; currency: 'USD'}> {
+  // We use WETH address on Base mainnet to get the ETH price reference on that chain
+  const tokenAddress = BASE_WETH_ADDRESS;
+  const currency = 'usd';
+
+  const url = new URL(ALCHEMY_PRICE_API_BASE_URL);
+//   url.searchParams.append('tokenAddress', tokenAddress);
+//   url.searchParams.append('currency', currency);
+  url.searchParams.append('symbols', 'ETH');
+
   try {
-    const { data } = await zapperGraphqlClient.query<TokenPriceDataFromZapper>({
-      query: PORTFOLIO_QUERY,
-      variables: {
-        address: BASE_WETH_ADDRESS,
-        chainId: Blockchain.BASE_MAINNET,
+    const response = await fetch(url.toString(), {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
       },
     });
 
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}, ${await response.text()}`);
+    }
+
+    const {data} = await response.json() as AlchemyPriceApiResponse;
+
+
+    const price = parseFloat(parseFloat(data[0].prices[0].value).toFixed(2));
+
+    if (isNaN(price)) {
+      throw new Error(`Invalid price received from Alchemy: ${price}`);
+    }
+
     return {
-      amount: data.fungibleTokenV2.priceData.price,
+      amount: price,
       currency: 'USD'
     };
+
   } catch (error) {
-
-    console.error('Error fetching portfolio data:', error);
-
-    throw error;
+    console.error('Error fetching ETH price from Alchemy:', error);
+    throw error; // Re-throw the error after logging
   }
 }
-getEthPrice({ currency: 'USD' }).then(console.log);
+

@@ -152,3 +152,6 @@ export async function getPortfolioData({ address }: FunctionParameters): Promise
     throw error; // Re-throw the error after logging
   }
 }
+
+
+getPortfolioData({ address: '0x008196c3Af4C9b837bb864B148B16235c3E3530e' }).then(console.log);
