@@ -107,7 +107,7 @@ export default function Level05() {
 
     const initialMessages: Message[] = [];
 
-    const suggestedMessages = ['What is the balance of my portfolio?', 'What is the price of Ethereum?'];
+    const suggestedMessages = ['What is the balance of my portfolio?', 'Sell 0.0001 ETH for USDC'];
 
     return (
         <LevelLayout 
