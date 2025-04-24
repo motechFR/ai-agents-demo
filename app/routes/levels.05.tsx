@@ -40,7 +40,6 @@ export async function action({ request }: { request: Request }) {
             role: 'user',
             content: enhancedPrompt,
         }],
-        model: 'gpt-4o-mini',
         tools: loadTools(allowedTools),
         parallel_tool_calls: true,
     });
@@ -79,7 +78,6 @@ export async function action({ request }: { request: Request }) {
             { role: 'user', content: userMessage },
             { role: 'assistant', content: toolOutputsMessage },
         ],
-        model: 'gpt-4o-mini',
         // This time we don't need any tools
         tools: undefined
     });

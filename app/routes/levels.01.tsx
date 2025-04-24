@@ -11,8 +11,7 @@ export async function action({ request }: { request: Request }) {
         messages: [{
             role: 'user',
             content: message as string,
-        }],
-        model: 'gpt-4o-mini',
+        }]
     });
 
     const responseMessage: Message = {

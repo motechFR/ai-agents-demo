@@ -27,7 +27,6 @@ export async function action({ request }: { request: Request }) {
             role: 'user',
             content: message as string,
         }],
-        model: 'gpt-4o-mini',
     });
 
     const responseMessage: Message = {

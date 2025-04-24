@@ -53,10 +53,8 @@ For more information on the Remix framework, visit [remix.run](https://remix.run
 3. Set up environment variables:
    - Copy `.env.example` to `.env`
    - Fill in the required API keys and wallet information:
-     - OpenAI API key
-     - Coindesk API key
-     - Zapper API key
-     - Alchemy API key
+     - OpenAI API key OR Gemini API key for having access to an LLM model
+     - Alchemy API key (for interacting with the blockchain)
      - Wallet private key (use the keygen script in scripts/keygen.ts to generate)
 
 To get the wallet private key run
