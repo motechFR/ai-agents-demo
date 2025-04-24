@@ -10,7 +10,7 @@ import {
   ScrollRestoration,
   useNavigation
 } from "@remix-run/react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { allDemoLevels } from "../server/lib/levels/definitions";
 
 export const links: LinksFunction = () => [
@@ -57,42 +57,47 @@ export default function App() {
           </div>
           <nav>
             <ul>
-              {allDemoLevels.map((level) => (
-                <li key={level.level}>
-                  <NavLink
-                    to={`/levels/${level.level.toString().padStart(2, '0')}`}
-                    className={({ isActive, isPending }) =>
-                      isPending ? "pending" : isActive ? "active" : ""
-                    }
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: isCollapsed ? "center" : "flex-start",
-                      width: "100%",
-                      whiteSpace: "normal",
-                      wordBreak: "break-word",
-                      minHeight: "2em"
-                    }}
-                  >
-                    <div style={{
-                      backgroundColor: "#4a5568",
-                      color: "white",
-                      borderRadius: "50%",
-                      width: "24px",
-                      height: "24px",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      marginRight: isCollapsed ? "0" : "8px",
-                      flexShrink: 0,
-                      fontSize: "0.8rem",
-                      fontWeight: "bold"
-                    }}>
-                      {level.level}
-                    </div>
-                    {!isCollapsed && <span>{level.title}</span>}
-                  </NavLink>
-                </li>
+              {allDemoLevels.map((level, index) => (
+                <React.Fragment key={level.level}>
+                  <li>
+                    <NavLink
+                      to={`/levels/${level.level.toString().padStart(2, '0')}`}
+                      className={({ isActive, isPending }) =>
+                        isPending ? "pending" : isActive ? "active" : ""
+                      }
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: isCollapsed ? "center" : "flex-start",
+                        width: "100%",
+                        whiteSpace: "normal",
+                        wordBreak: "break-word",
+                        minHeight: "2em"
+                      }}
+                    >
+                      <div style={{
+                        backgroundColor: "#4a5568",
+                        color: "white",
+                        borderRadius: "50%",
+                        width: "24px",
+                        height: "24px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        marginRight: isCollapsed ? "0" : "8px",
+                        flexShrink: 0,
+                        fontSize: "0.8rem",
+                        fontWeight: "bold"
+                      }}>
+                        {level.level}
+                      </div>
+                      {!isCollapsed && <span>{level.title}</span>}
+                    </NavLink>
+                  </li>
+                  {index === allDemoLevels.length - 2 && (
+                    <hr style={{ margin: '0.5rem 0', borderTop: '1px solid #4a5568' }} />
+                  )}
+                </React.Fragment>
               ))}
             </ul>
           </nav>

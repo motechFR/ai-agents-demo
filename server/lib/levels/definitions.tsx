@@ -35,13 +35,6 @@ export const level05: DemoLevel = {
     mermaidJsFlowchart: undefined,
 }
 
-export const level9000: DemoLevel = {
-    level: 9000,
-    title: 'Agentic Business Software',
-    description: 'Workflows, human approval, multi-agent systems, and more',
-    mermaidJsFlowchart: undefined,
-}
-
 // TODO - Complete these levels
 // export const level06: DemoLevel = {
 //     level: 6,
@@ -73,8 +66,7 @@ export const allDemoLevels: DemoLevel[] = [
     level08,
     // Readd these later when we are finished
     // level06,
-    // level07,
-    // level08,
+    // level07
 ]
 
 
