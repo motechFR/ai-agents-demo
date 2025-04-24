@@ -120,19 +120,24 @@ graph TD
             Step6 -- "Uses" --> TradeAgent
         end
 
-        %% subgraph PortfolioManagementWorkflow
-        %%     Step1["Step 1: Review portfolio"]
-        %%     Step2["Step 2: Analyse risk"]
-        %%     Step3["Step 3: Review market"]
-        %%     Step4["Step 4: Review trades"]
-        %%     Step5["Step 5: Take profits and stop losses"]
+        subgraph PortfolioManagementWorkflow
+            PMStep1["Step 1: Review portfolio"]
+            PMStep2["Step 2: Analyse risk"]
+            PMStep3["Step 3: Review market"]
+            PMStep4["Step 4: Review trades"]
+            PMStep5["Step 5: Take profits and stop losses"]
 
-        %%     Step1 -- "Uses" --> PortfolioAgent
-        %%     Step2 -- "Uses" --> RiskAgent
-        %%     Step3 -- "Uses" --> MarketAgent
-        %%     Step4 -- "Uses" --> DataAccessLayer
-        %%     Step5 -- "Uses" --> TradeAgent
-        %% end
+            PMStep1 --> PMStep2
+            PMStep2 --> PMStep3
+            PMStep3 --> PMStep4
+            PMStep4 --> PMStep5
+
+            PMStep1 -- "Uses" --> PortfolioAgent
+            PMStep2 -- "Uses" --> RiskAgent
+            PMStep3 -- "Uses" --> MarketAgent
+            PMStep4 -- "Uses" --> DataAccessLayer
+            PMStep5 -- "Uses" --> TradeAgent
+        end
         
     end
 

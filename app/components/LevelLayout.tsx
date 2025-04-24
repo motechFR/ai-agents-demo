@@ -48,7 +48,7 @@ export function LevelLayout({
             
             setIsLoading(false);
         }
-    }, [enabledModes]);
+    }, []);
 
     useEffect(() => {
         if (!isLoading && activeTab) {
