@@ -1,11 +1,11 @@
 import { zodFunction } from 'openai/helpers/zod';
-import { formatUnits } from 'viem'; // We'll need a utility for hex conversion
+import { formatUnits } from 'viem';
 import { z } from 'zod';
+import { Blockchain } from './constants';
+import { base } from 'viem/chains';
 
-// Define the schema for the function parameters - Only address is exposed
 export const getPortfolioDataSchema = z.object({
   address: z.string().describe('The blockchain address to fetch portfolio data for'),
-  // chainId removed as requested for the *exposed* schema
 }).describe('Get portfolio data for a blockchain address');
 
 // Create the tool definition
@@ -16,12 +16,7 @@ export const getPortfolioDataToolDefinition = zodFunction({
 });
 
 // Internal function parameters might still need chain info
-type FunctionParameters = {
-  address: string;
-  // We might need chainId internally to map to Alchemy network strings
-  // For now, we'll hardcode it in the function based on the example.
-  // chainId: Blockchain;
-};
+type FunctionParameters = z.infer<typeof getPortfolioDataSchema>;
 
 // Define the response type structure from Alchemy
 type AlchemyTokenPrice = {
@@ -60,7 +55,10 @@ type PortfolioTokenData = {
   tokenSymbol: string; // Added symbol
   tokenName: string;
   tokenAddress: string | null; // Can be null for native
-  network: string;
+  network: {
+    name: string;
+    chainId: number;
+  };
   // tokenImage removed as logo is often null
 }
 
@@ -124,15 +122,37 @@ export async function getPortfolioData({ address }: FunctionParameters): Promise
       const price = usdPriceData ? parseFloat(usdPriceData.value) : 0;
       const balanceUSD = balance * price;
 
+      // Only show token balances with at least $0.50 in value
+      if (balanceUSD < 0.5) {
+        continue;
+      }
       totalBalanceUSD += balanceUSD;
 
+      let tokenSymbol: string;
+      let tokenName: string;
+      const zeroAddress = '0x0000000000000000000000000000000000000000';
+
+      // Check for native token (null or zero address)
+      if (token.tokenAddress === null || token.tokenAddress === zeroAddress) {
+        tokenSymbol = 'ETH';
+        tokenName = 'Ethereum';
+      } else {
+        tokenSymbol = metadata?.symbol ?? 'Unknown Symbol'; // Fallback if metadata is missing for non-native
+        tokenName = metadata?.name ?? 'Unknown Name';     // Fallback if metadata is missing for non-native
+      }
+
+      
+
       balances.push({
-        balance: parseFloat(balance.toFixed(4)), // Keep reasonable precision
+        balance: (tokenSymbol === 'ETH' || tokenSymbol === 'WETH') ? parseFloat(balance.toFixed(4)) : parseFloat(balance.toFixed(2)), // Keep reasonable precision
         balanceUSD: parseFloat(balanceUSD.toFixed(2)),
-        tokenSymbol: metadata?.symbol ?? 'NATIVE', // Use 'NATIVE' for native token symbol
-        tokenName: metadata?.name ?? 'Native Token', // Use 'Native Token' for native token name
+        tokenSymbol: tokenSymbol,
+        tokenName: tokenName,
         tokenAddress: token.tokenAddress,
-        network: token.network,
+        network: {
+          chainId: Blockchain.BASE_MAINNET,
+          name: base.name
+        }
       });
     }
 
@@ -152,6 +172,3 @@ export async function getPortfolioData({ address }: FunctionParameters): Promise
     throw error; // Re-throw the error after logging
   }
 }
-
-
-getPortfolioData({ address: '0x008196c3Af4C9b837bb864B148B16235c3E3530e' }).then(console.log);

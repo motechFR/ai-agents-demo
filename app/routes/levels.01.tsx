@@ -39,27 +39,6 @@ export default function Level01() {
 
     const initialSuggestedMessages = ['Which cryptocurrency should I invest in?'];
 
-    const handleSendMessage = async (content: string, messages: Message[]) => {
-        // Add the sent message to suggested messages
-        const newSuggestedMessages = [...initialSuggestedMessages, content];
-        
-        // Send as JSON
-        const response = await fetch('/levels/01', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ message: content }),
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to send message');
-        }
-
-        const data = await response.json();
-        return data.message;
-    };
-
     return (
         <LevelLayout 
             levelNumber={1}
