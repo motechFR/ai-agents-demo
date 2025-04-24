@@ -15,7 +15,6 @@ export async function action({ request }: { request: Request }) {
             role: 'user',
             content: message as string,
         }],
-        model: 'gpt-4o-mini',
     });
 
     const responseMessage: Message = {
@@ -51,7 +50,7 @@ export default function Level02() {
         timestamp: new Date(),
     }];
 
-    const suggestedMessages = ['Which cryptocurrency should I invest in?'];
+    const suggestedMessages = ['What did you just say?'];
 
     return (
         <LevelLayout 

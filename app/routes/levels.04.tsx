@@ -34,9 +34,7 @@ export async function action({ request }: { request: Request }) {
             role: 'user',
             content: enhancedPrompt,
         }],
-        model: 'gpt-4o-mini',
         tools: loadTools(allowedTools),
-        parallel_tool_calls: true,
     });
 
     const requiredToolCalls = chatCompletion.choices[0].message.tool_calls;
@@ -71,12 +69,12 @@ export async function action({ request }: { request: Request }) {
                 content: m.content,
             })),
             { role: 'user', content: userMessage },
-            { role: 'assistant', content: toolOutputsMessage },
+            { role: 'user', content: toolOutputsMessage },
         ],
-        model: 'gpt-4o-mini',
         // This time we don't need any tools
         tools: undefined
     });
+
 
     const responseMessage: Message = {
         id: uuidv4(),

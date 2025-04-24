@@ -12,7 +12,10 @@ The tutorial is structured in progressive levels:
 4. **Agent with Context and Read-Only Tools**: Agent can query live crypto prices and view historical trends
 5. **Agent with Context, Write Access, and Wallet Integration**: Agent can execute trades and interact with blockchain via wallet
 
-(Additional levels will be added later)
+
+## Companion Guide
+
+For a guided walkthrough of using this demo and understanding each level, check out the companion guide: [AI Agents: From 0 to 1](https://melboudi.substack.com/p/ai-agents-from-0-to-1)
 
 ## Getting Started
 
@@ -21,8 +24,6 @@ The tutorial is structured in progressive levels:
 - The frontend is built with Remix
 - The backend uses Koa and implements the Model Context Protocol
 - Each level demonstrates a different aspect of AI agent architecture
-
-For more information on the Model Context Protocol, visit [modelcontextprotocol.io](https://modelcontextprotocol.io).
 
 For more information on the Remix framework, visit [remix.run](https://remix.run).
 
@@ -46,11 +47,15 @@ For more information on the Remix framework, visit [remix.run](https://remix.run
 3. Set up environment variables:
    - Copy `.env.example` to `.env`
    - Fill in the required API keys and wallet information:
-     - OpenAI API key
-     - Coindesk API key
-     - Zapper API key
-     - Alchemy API key
+     - OpenAI API key OR Gemini API key for having access to an LLM model
+     - Alchemy API key (for interacting with the blockchain)
      - Wallet private key (use the keygen script in scripts/keygen.ts to generate)
+
+To get the wallet private key run
+
+```sh
+npm run keygen
+```
 
 ### Running the Application
 
@@ -67,6 +72,6 @@ npm run dev:all
 
 You can test the Model Context Protocol server using the [MCP Inspector](https://github.com/modelcontextprotocol/inspector):
 
-
 This will open the MCP Inspector interface where you can interact with your MCP server and debug requests/responses.
 
+For more information on the Model Context Protocol, visit [modelcontextprotocol.io](https://modelcontextprotocol.io).

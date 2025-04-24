@@ -14,6 +14,7 @@ interface LevelLayoutProps {
     onSendMessage?: (data: {content: string, history: Message[]}) => Promise<Message | null>;
     suggestedMessages?: string[];
     children?: ReactNode;
+    enabledModes?: Tab[];
 }
 
 export function LevelLayout({ 
@@ -22,7 +23,8 @@ export function LevelLayout({
     initialMessages = [],
     onSendMessage,
     suggestedMessages = [],
-    children 
+    children,
+    enabledModes = ['mermaid', 'chat', 'side-by-side']
 }: LevelLayoutProps) {
     const [isLoading, setIsLoading] = useState(true);
     const [activeTab, setActiveTab] = useState<Tab | null>(null);
@@ -34,13 +36,16 @@ export function LevelLayout({
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            const savedTab = localStorage.getItem('levelLayoutActiveTab');
-            if (savedTab) {
-                setActiveTab(savedTab as Tab);
+            const savedTab = localStorage.getItem('levelLayoutActiveTab') as Tab | null;
+            
+            // Check if saved tab is enabled, otherwise default to first enabled mode
+            if (savedTab && enabledModes.includes(savedTab)) {
+                setActiveTab(savedTab);
+            } else {
+                // Default to first enabled mode
+                setActiveTab(enabledModes[0]);
             }
-            // else {
-            //     setActiveTab('side-by-side');
-            // }
+            
             setIsLoading(false);
         }
     }, []);
@@ -50,6 +55,13 @@ export function LevelLayout({
             localStorage.setItem('levelLayoutActiveTab', activeTab);
         }
     }, [activeTab, isLoading]);
+
+    // If activeTab is not in enabledModes, switch to first enabled mode
+    useEffect(() => {
+        if (activeTab && !enabledModes.includes(activeTab)) {
+            setActiveTab(enabledModes[0]);
+        }
+    }, [enabledModes, activeTab]);
 
     const handleSendMessage = async (content: string) => {
         // Add the human message
@@ -124,6 +136,8 @@ export function LevelLayout({
                         </div>
                     </div>
                 );
+            default:
+                return null;
         }
     };
 
@@ -143,21 +157,21 @@ export function LevelLayout({
                     <button 
                         className={`tab-button ${activeTab === 'side-by-side' ? 'active' : ''}`}
                         onClick={() => setActiveTab('side-by-side')}
-                        disabled={isLoading}
+                        disabled={isLoading || !enabledModes.includes('side-by-side')}
                     >
                         Chat & Diagram
                     </button>
                     <button 
                         className={`tab-button ${activeTab === 'mermaid' ? 'active' : ''}`}
                         onClick={() => setActiveTab('mermaid')}
-                        disabled={isLoading}
+                        disabled={isLoading || !enabledModes.includes('mermaid')}
                     >
                         Diagram
                     </button>
                     <button 
                         className={`tab-button ${activeTab === 'chat' ? 'active' : ''}`}
                         onClick={() => setActiveTab('chat')}
-                        disabled={isLoading}
+                        disabled={isLoading || !enabledModes.includes('chat')}
                     >
                         Chat
                     </button>

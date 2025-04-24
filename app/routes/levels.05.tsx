@@ -40,9 +40,7 @@ export async function action({ request }: { request: Request }) {
             role: 'user',
             content: enhancedPrompt,
         }],
-        model: 'gpt-4o-mini',
-        tools: loadTools(allowedTools),
-        parallel_tool_calls: true,
+        tools: loadTools(allowedTools)
     });
 
     const requiredToolCalls = chatCompletion.choices[0].message.tool_calls;
@@ -77,9 +75,8 @@ export async function action({ request }: { request: Request }) {
                 content: m.content,
             })),
             { role: 'user', content: userMessage },
-            { role: 'assistant', content: toolOutputsMessage },
+            { role: 'user', content: toolOutputsMessage },
         ],
-        model: 'gpt-4o-mini',
         // This time we don't need any tools
         tools: undefined
     });
@@ -107,7 +104,7 @@ export default function Level05() {
 
     const initialMessages: Message[] = [];
 
-    const suggestedMessages = ['What is the balance of my portfolio?', 'What is the price of Ethereum?'];
+    const suggestedMessages = ['What is the balance of my portfolio?', 'Sell 0.0001 ETH for USDC'];
 
     return (
         <LevelLayout 
