@@ -29,7 +29,7 @@ export default function AboutContact() {
           <h2 style={{ fontSize: "2rem", fontWeight: "600", marginBottom: "0.5rem" }}>
             Mohamad El Boudi
           </h2>
-          <p style={{ fontSize: "1.3rem", color: "#6b7280", marginBottom: "1.5rem" }}>
+          <p style={{ fontSize: "1.3rem", color: "#6b7280", marginBottom: "1.5rem", fontWeight: "bold" }}>
             AI Product Engineer
           </p>
           
@@ -40,26 +40,6 @@ export default function AboutContact() {
             gap: "2rem",
             flexWrap: "wrap"
           }}>
-            <div style={{ textAlign: "center" }}>
-              <a 
-                href="https://linkedin.com/in/mohamad-el-boudi" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                style={{
-                  display: "inline-block",
-                  backgroundColor: "#0077b5",
-                  color: "white",
-                  padding: "0.75rem 1.5rem",
-                  borderRadius: "6px",
-                  textDecoration: "none",
-                  fontWeight: "600",
-                  fontSize: "1.1rem",
-                  transition: "background-color 0.2s"
-                }}
-              >
-                LinkedIn
-              </a>
-            </div>
             
             <div style={{ 
               textAlign: "center",
@@ -76,24 +56,15 @@ export default function AboutContact() {
               }}>
                 Scan to connect on LinkedIn
               </p>
-              <div style={{
-                width: "200px",
-                height: "200px",
-                backgroundColor: "#f3f4f6",
-                border: "2px dashed #d1d5db",
-                borderRadius: "8px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: "0.9rem",
-                color: "#6b7280",
-                textAlign: "center",
-                lineHeight: "1.4"
-              }}>
-                QR Code<br />
-                LinkedIn Profile<br />
-                <small>(Placeholder)</small>
-              </div>
+              <img 
+                src="/qrcodes/linkedin-mo.png" 
+                alt="LinkedIn QR Code for Mohamad El Boudi"
+                style={{
+                  width: "400px",
+                  height: "400px",
+                  borderRadius: "8px"
+                }}
+              />
             </div>
           </div>
         </div>
