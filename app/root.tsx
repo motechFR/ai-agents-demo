@@ -12,6 +12,7 @@ import {
 } from "@remix-run/react";
 import React, { useState, useEffect } from "react";
 import { allDemoLevels } from "../server/lib/levels/definitions";
+import { SidebarItem } from "./components/SidebarItem";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: appStylesHref },
@@ -92,39 +93,13 @@ export default function App() {
                   {allDemoLevels.map((level, index) => (
                     <React.Fragment key={level.level}>
                       <li>
-                        <NavLink
+                        <SidebarItem
+                          label={level.title}
+                          badge={level.level}
                           to={`/levels/${level.level.toString().padStart(2, '0')}`}
-                          className={({ isActive, isPending }) =>
-                            isPending ? "pending" : isActive ? "active" : ""
-                          }
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: isCollapsed ? "center" : "flex-start",
-                            width: "100%",
-                            whiteSpace: "normal",
-                            wordBreak: "break-word",
-                            minHeight: "2em"
-                          }}
-                        >
-                          <div style={{
-                            backgroundColor: "#4a5568",
-                            color: "white",
-                            borderRadius: "50%",
-                            width: "24px",
-                            height: "24px",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            marginRight: isCollapsed ? "0" : "8px",
-                            flexShrink: 0,
-                            fontSize: "0.8rem",
-                            fontWeight: "bold"
-                          }}>
-                            {level.level}
-                          </div>
-                          {!isCollapsed && <span>{level.title}</span>}
-                        </NavLink>
+                          isCollapsed={isCollapsed}
+                          variant="primary"
+                        />
                       </li>
                       {index === allDemoLevels.length - 2 && (
                         <hr style={{ margin: '0.5rem 0', borderTop: '1px solid #4a5568' }} />
@@ -165,59 +140,29 @@ export default function App() {
                 <ul style={{ margin: 0, padding: 0 }}>
                   {/* 1 - Tooling */}
                   <li>
-                    <div style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: isCollapsed ? "center" : "flex-start",
-                      padding: "0.5rem 1rem",
-                      color: "#cbd5e0",
-                      fontWeight: "500",
-                      cursor: "default",
-                      borderRadius: "0.375rem"
-                    }}>
-                      <div style={{
-                        backgroundColor: "#2d3748",
-                        color: "white",
-                        borderRadius: "50%",
-                        width: "20px",
-                        height: "20px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        marginRight: isCollapsed ? "0" : "8px",
-                        flexShrink: 0,
-                        fontSize: "0.7rem",
-                        fontWeight: "bold"
-                      }}>
-                        1
-                      </div>
-                      {!isCollapsed && <span>Tooling</span>}
-                    </div>
+                    <SidebarItem
+                      label="Tooling"
+                      badge="1"
+                      isCollapsed={isCollapsed}
+                      variant="secondary"
+                    />
                     {!isCollapsed && (
                       <ul style={{ margin: 0, padding: 0, paddingLeft: "1rem" }}>
                         <li>
-                          <div style={{
-                            display: "flex",
-                            alignItems: "center",
-                            padding: "0.25rem 1rem",
-                            color: "#a0aec0",
-                            fontSize: "0.9rem"
-                          }}>
-                            <span style={{ marginRight: "8px", fontSize: "0.7rem" }}>1a</span>
-                            <span>Models</span>
-                          </div>
+                          <SidebarItem
+                            label="Models"
+                            badge="1a"
+                            isCollapsed={isCollapsed}
+                            variant="sub"
+                          />
                         </li>
                         <li>
-                          <div style={{
-                            display: "flex",
-                            alignItems: "center",
-                            padding: "0.25rem 1rem",
-                            color: "#a0aec0",
-                            fontSize: "0.9rem"
-                          }}>
-                            <span style={{ marginRight: "8px", fontSize: "0.7rem" }}>1b</span>
-                            <span>Observability</span>
-                          </div>
+                          <SidebarItem
+                            label="Observability"
+                            badge="1b"
+                            isCollapsed={isCollapsed}
+                            variant="sub"
+                          />
                         </li>
                       </ul>
                     )}
@@ -225,59 +170,29 @@ export default function App() {
 
                   {/* 2 - Horizontal tools */}
                   <li>
-                    <div style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: isCollapsed ? "center" : "flex-start",
-                      padding: "0.5rem 1rem",
-                      color: "#cbd5e0",
-                      fontWeight: "500",
-                      cursor: "default",
-                      borderRadius: "0.375rem"
-                    }}>
-                      <div style={{
-                        backgroundColor: "#2d3748",
-                        color: "white",
-                        borderRadius: "50%",
-                        width: "20px",
-                        height: "20px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        marginRight: isCollapsed ? "0" : "8px",
-                        flexShrink: 0,
-                        fontSize: "0.7rem",
-                        fontWeight: "bold"
-                      }}>
-                        2
-                      </div>
-                      {!isCollapsed && <span>Horizontal tools</span>}
-                    </div>
+                    <SidebarItem
+                      label="Horizontal tools"
+                      badge="2"
+                      isCollapsed={isCollapsed}
+                      variant="secondary"
+                    />
                     {!isCollapsed && (
                       <ul style={{ margin: 0, padding: 0, paddingLeft: "1rem" }}>
                         <li>
-                          <div style={{
-                            display: "flex",
-                            alignItems: "center",
-                            padding: "0.25rem 1rem",
-                            color: "#a0aec0",
-                            fontSize: "0.9rem"
-                          }}>
-                            <span style={{ marginRight: "8px", fontSize: "0.7rem" }}>2a</span>
-                            <span>ChatGPT</span>
-                          </div>
+                          <SidebarItem
+                            label="ChatGPT"
+                            badge="2a"
+                            isCollapsed={isCollapsed}
+                            variant="sub"
+                          />
                         </li>
                         <li>
-                          <div style={{
-                            display: "flex",
-                            alignItems: "center",
-                            padding: "0.25rem 1rem",
-                            color: "#a0aec0",
-                            fontSize: "0.9rem"
-                          }}>
-                            <span style={{ marginRight: "8px", fontSize: "0.7rem" }}>2b</span>
-                            <span>Workflow orchestration via n8n</span>
-                          </div>
+                          <SidebarItem
+                            label="Workflow orchestration via n8n"
+                            badge="2b"
+                            isCollapsed={isCollapsed}
+                            variant="sub"
+                          />
                         </li>
                       </ul>
                     )}
@@ -285,47 +200,21 @@ export default function App() {
 
                   {/* 3 - Vertical AI */}
                   <li>
-                    <div style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: isCollapsed ? "center" : "flex-start",
-                      padding: "0.5rem 1rem",
-                      color: "#cbd5e0",
-                      fontWeight: "500",
-                      cursor: "default",
-                      borderRadius: "0.375rem"
-                    }}>
-                      <div style={{
-                        backgroundColor: "#2d3748",
-                        color: "white",
-                        borderRadius: "50%",
-                        width: "20px",
-                        height: "20px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        marginRight: isCollapsed ? "0" : "8px",
-                        flexShrink: 0,
-                        fontSize: "0.7rem",
-                        fontWeight: "bold"
-                      }}>
-                        3
-                      </div>
-                      {!isCollapsed && <span>Vertical AI</span>}
-                    </div>
+                    <SidebarItem
+                      label="Vertical AI"
+                      badge="3"
+                      isCollapsed={isCollapsed}
+                      variant="secondary"
+                    />
                     {!isCollapsed && (
                       <ul style={{ margin: 0, padding: 0, paddingLeft: "1rem" }}>
                         <li>
-                          <div style={{
-                            display: "flex",
-                            alignItems: "center",
-                            padding: "0.25rem 1rem",
-                            color: "#a0aec0",
-                            fontSize: "0.9rem"
-                          }}>
-                            <span style={{ marginRight: "8px", fontSize: "0.7rem" }}>3a</span>
-                            <span>AI in Cybersecurity</span>
-                          </div>
+                          <SidebarItem
+                            label="AI in Cybersecurity"
+                            badge="3a"
+                            isCollapsed={isCollapsed}
+                            variant="sub"
+                          />
                         </li>
                       </ul>
                     )}
