@@ -202,8 +202,17 @@ export default function App() {
                         </li>
                         <li>
                           <SidebarItem
-                            label="Workflow orchestration via n8n"
+                            label="Jamie"
                             badge="2b"
+                            to="/production/horizontal-tools/jamie"
+                            isCollapsed={isCollapsed}
+                            variant="sub"
+                          />
+                        </li>
+                        <li>
+                          <SidebarItem
+                            label="Workflow orchestration via n8n"
+                            badge="2c"
                             to="/production/horizontal-tools/workflow-orchestration"
                             isCollapsed={isCollapsed}
                             variant="sub"
