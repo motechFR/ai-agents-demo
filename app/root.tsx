@@ -26,13 +26,13 @@ export default function App() {
     if (typeof window === 'undefined') return false;
     return localStorage.getItem('sidebarCollapsed') === 'true';
   });
-  const [expandedSection, setExpandedSection] = useState<'blocks' | 'production' | null>('blocks');
+  const [expandedSection, setExpandedSection] = useState<'blocks' | 'production' | 'about' | null>('blocks');
 
   useEffect(() => {
     localStorage.setItem('sidebarCollapsed', isCollapsed.toString());
   }, [isCollapsed]);
 
-  const toggleSection = (section: 'blocks' | 'production') => {
+  const toggleSection = (section: 'blocks' | 'production' | 'about') => {
     setExpandedSection(expandedSection === section ? null : section);
   };
 
@@ -244,6 +244,47 @@ export default function App() {
                         </li>
                       </ul>
                     )}
+                  </li>
+                </ul>
+              )}
+            </div>
+
+            {/* About Section */}
+            <div style={{ marginTop: "1.5rem" }}>
+              <h2 
+                onClick={() => toggleSection('about')}
+                style={{
+                  color: "#cbd5e0",
+                  fontSize: "0.9rem",
+                  fontWeight: "600",
+                  marginBottom: "0.5rem",
+                  paddingLeft: isCollapsed ? "0" : "0.5rem",
+                  textAlign: isCollapsed ? "center" : "left",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.05em",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: isCollapsed ? "center" : "space-between"
+                }}
+              >
+                <span>{isCollapsed ? "ABOUT" : "About"}</span>
+                {!isCollapsed && (
+                  <span style={{ fontSize: "0.8rem" }}>
+                    {expandedSection === 'about' ? '▼' : '▶'}
+                  </span>
+                )}
+              </h2>
+              {expandedSection === 'about' && (
+                <ul style={{ margin: 0, padding: 0 }}>
+                  <li>
+                    <SidebarItem
+                      label="Contact"
+                      badge="1"
+                      to="/about/contact"
+                      isCollapsed={isCollapsed}
+                      variant="secondary"
+                    />
                   </li>
                 </ul>
               )}
