@@ -143,6 +143,7 @@ export default function App() {
                     <SidebarItem
                       label="Tooling"
                       badge="1"
+                      to="/production/tooling"
                       isCollapsed={isCollapsed}
                       variant="secondary"
                     />
@@ -152,6 +153,7 @@ export default function App() {
                           <SidebarItem
                             label="Models"
                             badge="1a"
+                            to="/production/tooling/models"
                             isCollapsed={isCollapsed}
                             variant="sub"
                           />
@@ -160,6 +162,7 @@ export default function App() {
                           <SidebarItem
                             label="Observability"
                             badge="1b"
+                            to="/production/tooling/observability"
                             isCollapsed={isCollapsed}
                             variant="sub"
                           />
@@ -173,6 +176,7 @@ export default function App() {
                     <SidebarItem
                       label="Horizontal tools"
                       badge="2"
+                      to="/production/horizontal-tools"
                       isCollapsed={isCollapsed}
                       variant="secondary"
                     />
@@ -182,6 +186,7 @@ export default function App() {
                           <SidebarItem
                             label="ChatGPT"
                             badge="2a"
+                            to="/production/horizontal-tools/chatgpt"
                             isCollapsed={isCollapsed}
                             variant="sub"
                           />
@@ -190,6 +195,7 @@ export default function App() {
                           <SidebarItem
                             label="Workflow orchestration via n8n"
                             badge="2b"
+                            to="/production/horizontal-tools/workflow-orchestration"
                             isCollapsed={isCollapsed}
                             variant="sub"
                           />
@@ -203,6 +209,7 @@ export default function App() {
                     <SidebarItem
                       label="Vertical AI"
                       badge="3"
+                      to="/production/vertical-ai"
                       isCollapsed={isCollapsed}
                       variant="secondary"
                     />
@@ -212,6 +219,7 @@ export default function App() {
                           <SidebarItem
                             label="AI in Cybersecurity"
                             badge="3a"
+                            to="/production/vertical-ai/cybersecurity"
                             isCollapsed={isCollapsed}
                             variant="sub"
                           />
