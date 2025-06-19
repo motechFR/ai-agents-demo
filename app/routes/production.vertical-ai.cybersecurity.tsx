@@ -1,4 +1,5 @@
 import type { MetaFunction } from "@remix-run/node";
+import { ImageSlider } from "~/components/widgets/ImageSlider";
 
 export const meta: MetaFunction = () => {
   return [
@@ -9,6 +10,14 @@ export const meta: MetaFunction = () => {
 };
 
 export default function ProductionVerticalAICybersecurity() {
+  const silkRunnerImages = [
+    {
+      src: "/images/ai-in-prod/03-silkrunner.png",
+      alt: "silkRunner autonomous investigation dashboard",
+      caption: "silkRunner dashboard showing autonomous investigation workflow with agent reasoning steps"
+    }
+  ];
+
   return (
     <main className="ai-cyber-page">
       {/*
@@ -16,7 +25,25 @@ export default function ProductionVerticalAICybersecurity() {
       meta-description: How agentic AI slashes alert fatigue while preserving auditability for modern SOCs.
       keywords: AI cybersecurity,SOC automation,agentic AI,alert fatigue,LLM security
       */}
-    
+      
+      <div style={{ padding: "4rem 2rem", textAlign: "center", backgroundColor: "#f8fafc" }}>
+        <h1 style={{ fontSize: "3rem", fontWeight: "bold", marginBottom: "2rem", color: "#1e293b" }}>
+          AI in Cybersecurity: From Alert Fatigue to Autonomous Defense
+        </h1>
+        
+        <div style={{ maxWidth: "800px", margin: "0 auto", marginBottom: "2rem" }}>
+          <ImageSlider 
+            images={silkRunnerImages}
+            showThumbnails={false}
+            showCaptions={true}
+            autoPlay={false}
+          />
+        </div>
+        
+        <p style={{ fontSize: "1.3rem", color: "#64748b", maxWidth: "800px", margin: "0 auto" }}>
+          Agentic AI transforms SOC operations by autonomously investigating threats while maintaining full auditability and human oversight.
+        </p>
+      </div>
 
       <section className="problem-statement" style={{ padding: "4rem 2rem", backgroundColor: "white" }}>
         <div style={{ maxWidth: "1000px", margin: "0 auto", textAlign: "center" }}>
@@ -82,24 +109,6 @@ export default function ProductionVerticalAICybersecurity() {
 
       <section className="silkrunner-showcase" style={{ padding: "4rem 2rem", backgroundColor: "#f8fafc" }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-          <h2 style={{ fontSize: "2.5rem", fontWeight: "bold", marginBottom: "2rem", textAlign: "center", color: "#1e293b" }}>
-            silkRunner: Agentic AI for Autonomous SOC
-          </h2>
-          
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "center", marginBottom: "3rem" }}>
-            <div>
-              <p style={{ fontSize: "1.2rem", marginBottom: "1.5rem", color: "#374151" }}>
-                silkRunner is an AI-powered platform built on an agentic framework designed to transform how Security Operations Centers (SOC) conduct investigations.
-              </p>
-              <p style={{ fontSize: "1.2rem", color: "#374151" }}>
-                It autonomously executes L1/L2 investigations for detected security incidents - operating 24/7 without the need for predefined playbooks or manual workflows.
-              </p>
-            </div>
-            <div>
-              <img src="/images/ai-in-prod/03-silkrunner.png" alt="silkRunner autonomous investigation dashboard" className="placeholder-silkrunner-dashboard" style={{ width: "100%", height: "300px", backgroundColor: "#ecfdf5", borderRadius: "8px" }} />
-              {/* Dashboard showing autonomous investigation workflow with agent reasoning steps */}
-            </div>
-          </div>
 
           <div style={{ backgroundColor: "white", padding: "3rem", borderRadius: "12px", border: "1px solid #e2e8f0" }}>
             <h3 style={{ fontSize: "2rem", fontWeight: "600", marginBottom: "2rem", textAlign: "center", color: "#1e293b" }}>
