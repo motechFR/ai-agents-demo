@@ -167,6 +167,15 @@ export default function App() {
                             variant="sub"
                           />
                         </li>
+                        <li>
+                          <SidebarItem
+                            label="Evals"
+                            badge="1c"
+                            to="/production/tooling/evals"
+                            isCollapsed={isCollapsed}
+                            variant="sub"
+                          />
+                        </li>
                       </ul>
                     )}
                   </li>
