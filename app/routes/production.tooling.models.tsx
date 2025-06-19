@@ -1,4 +1,5 @@
 import type { MetaFunction } from "@remix-run/node";
+import { ImageSlider, type SliderImage } from "~/components/widgets/ImageSlider";
 
 export const meta: MetaFunction = () => {
   return [
@@ -8,6 +9,14 @@ export const meta: MetaFunction = () => {
 };
 
 export default function ProductionToolingModels() {
+  const modelImages: SliderImage[] = [
+    {
+      src: "/images/ai-in-prod/01-models.png",
+      alt: "AI Models in Production",
+      caption: "Model management, versioning, and deployment strategies for production AI systems"
+    }
+  ];
+
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
       <div style={{ padding: "2rem" }}>
@@ -22,8 +31,17 @@ export default function ProductionToolingModels() {
             Model management, versioning, and deployment strategies for production AI systems
           </p>
         </div>
+
+        {/* Image Slider */}
+        <div style={{ marginBottom: "2rem" }}>
+          <ImageSlider 
+            images={modelImages}
+            showThumbnails={false}
+            showCaptions={true}
+          />
+        </div>
         
-        <div style={{ 
+        {/* <div style={{ 
           backgroundColor: "#f9fafb", 
           border: "1px solid #e5e7eb", 
           borderRadius: "8px", 
@@ -37,7 +55,7 @@ export default function ProductionToolingModels() {
             This section will cover model management best practices, versioning strategies, 
             deployment pipelines, and performance optimization techniques for production AI models.
           </p>
-        </div>
+        </div> */}
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "1rem" }}>
           <div style={{ 

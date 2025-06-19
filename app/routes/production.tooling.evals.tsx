@@ -1,4 +1,5 @@
 import type { MetaFunction } from "@remix-run/node";
+import { ImageSlider, type SliderImage } from "~/components/widgets/ImageSlider";
 
 export const meta: MetaFunction = () => {
   return [
@@ -8,6 +9,14 @@ export const meta: MetaFunction = () => {
 };
 
 export default function ProductionToolingEvals() {
+  const evalsImages: SliderImage[] = [
+    {
+      src: "/images/ai-in-prod/01-evals.jpg",
+      alt: "AI Evaluation Frameworks",
+      caption: "AI model evaluation frameworks, testing strategies, and performance assessment tools"
+    }
+  ];
+
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
       <div style={{ padding: "2rem" }}>
@@ -22,8 +31,17 @@ export default function ProductionToolingEvals() {
             AI model evaluation frameworks, testing strategies, and performance assessment tools
           </p>
         </div>
+
+        {/* Image Slider */}
+        <div style={{ marginBottom: "2rem" }}>
+          <ImageSlider 
+            images={evalsImages}
+            showThumbnails={false}
+            showCaptions={true}
+          />
+        </div>
         
-        <div style={{ 
+        {/* <div style={{ 
           backgroundColor: "#f9fafb", 
           border: "1px solid #e5e7eb", 
           borderRadius: "8px", 
@@ -37,7 +55,7 @@ export default function ProductionToolingEvals() {
             This section will cover comprehensive evaluation frameworks for AI models, including 
             automated testing pipelines, benchmark datasets, performance metrics, and continuous evaluation strategies.
           </p>
-        </div>
+        </div> */}
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "1rem" }}>
           <div style={{ 

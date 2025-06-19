@@ -1,4 +1,5 @@
 import type { MetaFunction } from "@remix-run/node";
+import { ImageSlider, type SliderImage } from "~/components/widgets/ImageSlider";
 
 export const meta: MetaFunction = () => {
   return [
@@ -8,6 +9,14 @@ export const meta: MetaFunction = () => {
 };
 
 export default function ProductionHorizontalToolsWorkflowOrchestration() {
+  const n8nImages: SliderImage[] = [
+    {
+      src: "/images/ai-in-prod/02-n8n.png",
+      alt: "n8n Workflow Orchestration",
+      caption: "Automated workflow management and business process optimization using n8n and similar platforms"
+    }
+  ];
+
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
       <div style={{ padding: "2rem" }}>
@@ -22,8 +31,17 @@ export default function ProductionHorizontalToolsWorkflowOrchestration() {
             Automated workflow management and business process optimization using n8n and similar platforms
           </p>
         </div>
+
+        {/* Image Slider */}
+        <div style={{ marginBottom: "2rem" }}>
+          <ImageSlider 
+            images={n8nImages}
+            showThumbnails={false}
+            showCaptions={true}
+          />
+        </div>
         
-        <div style={{ 
+        {/* <div style={{ 
           backgroundColor: "#f9fafb", 
           border: "1px solid #e5e7eb", 
           borderRadius: "8px", 
@@ -37,7 +55,7 @@ export default function ProductionHorizontalToolsWorkflowOrchestration() {
             This section will cover workflow automation platforms like n8n, integration patterns, 
             AI-powered automation, and enterprise workflow orchestration strategies.
           </p>
-        </div>
+        </div> */}
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "1rem" }}>
           <div style={{ 
