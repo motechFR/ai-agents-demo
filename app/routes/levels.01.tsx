@@ -36,7 +36,7 @@ export default function Level01() {
     const { content } = useLoaderData<typeof loader>();
 
 
-    const initialSuggestedMessages = ['Which cryptocurrency should I invest in?'];
+    const initialSuggestedMessages = ['Which cryptocurrency should I invest in?', 'What did you just say?'];
 
     return (
         <LevelLayout 
