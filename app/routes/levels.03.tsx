@@ -52,7 +52,7 @@ export default function Level02() {
 
     const initialMessages: Message[] = [];
 
-    const suggestedMessages = ['Which cryptocurrency should I invest in?', 'How do I make an apple pie?'];
+    const suggestedMessages = ['Which cryptocurrency should I invest in?', 'How do I make an apple pie?', 'What is the price of Ethereum?'];
 
     return (
         <LevelLayout 

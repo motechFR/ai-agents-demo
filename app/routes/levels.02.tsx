@@ -50,7 +50,7 @@ export default function Level02() {
         timestamp: new Date(),
     }];
 
-    const suggestedMessages = ['What did you just say?'];
+    const suggestedMessages = ['What did you just say?', 'How do I make an apple pie?'];
 
     return (
         <LevelLayout 
