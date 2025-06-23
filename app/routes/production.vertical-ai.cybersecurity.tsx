@@ -27,9 +27,29 @@ export default function ProductionVerticalAICybersecurity() {
       */}
       
       <div style={{ padding: "4rem 2rem", textAlign: "center", backgroundColor: "#f8fafc" }}>
-        <h1 style={{ fontSize: "3rem", fontWeight: "bold", marginBottom: "2rem", color: "#1e293b" }}>
-          AI in Cybersecurity: From Alert Fatigue to Autonomous Defense
-        </h1>
+        <div style={{ 
+          display: "flex", 
+          alignItems: "center", 
+          justifyContent: "center", 
+          gap: "2rem", 
+          marginBottom: "2rem",
+          flexWrap: "wrap"
+        }}>
+          <div style={{ 
+            backgroundColor: "#1e293b", 
+            padding: "1rem 1.5rem", 
+            borderRadius: "12px"
+          }}>
+            <img 
+              src="/logos/spidersilk.svg" 
+              alt="spiderSilk logo" 
+              style={{ height: "50px" }}
+            />
+          </div>
+          <h1 style={{ fontSize: "3rem", fontWeight: "bold", margin: "0", color: "#1e293b" }}>
+            AI in Cybersecurity: From Alert Fatigue to Autonomous Defense
+          </h1>
+        </div>
         
         <div style={{ maxWidth: "800px", margin: "0 auto", marginBottom: "2rem" }}>
           <ImageSlider 
